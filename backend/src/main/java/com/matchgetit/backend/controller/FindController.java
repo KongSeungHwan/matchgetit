@@ -45,6 +45,7 @@ public class FindController {
             String mailContent = "고객님의 임시비밀번호는" + tempPassword + "입니다. 프로필 설정란에서 비밀번호를 재설정 해주세요!" ;
             content = "임시비밀번호를 메일로 전송했습니다.";
             sendEmail(recipientEmail, subject, mailContent);
+            System.out.println("시발");
         }
         return content;
     }
