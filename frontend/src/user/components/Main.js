@@ -59,6 +59,7 @@ function Main({ onLogin, onLogout, isLoggedIn }) {
         }).catch(error=>{
             console.log('삽입 실패');
         })
+        getSession();
         if (isLoggedIn) {
             renewPartyAcceptData();
             findPartyMembers();
