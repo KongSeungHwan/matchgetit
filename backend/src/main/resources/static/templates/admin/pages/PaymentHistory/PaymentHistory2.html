@@ -35,13 +35,13 @@
         <div class="payment-header">
             <h2>결제 기록 조회</h2>
             <div>
-                <button type="button" onclick="refund()">환불하기</button>
+                <button type="button" onclick="refund()">환불 기록 등록</button>
             </div>
         </div>
 
         <hr>
         <div class="search-container">
-            <form th:object="${searchPaymentDTO}">
+            <form id="search-form" th:object="${searchPaymentDTO}">
                 <div class="condition-container">
                     <div>
                         <div class="condition-group">
@@ -164,7 +164,7 @@
 <!--                <td th:text="${payment.cancelDate != null ? payment.cancelDate : '-'}">2023-00-00</td>-->
                 <td th:text="${payment.price}">10000</td>
 <!--                <td th:text="${payment.canceledPrice}">5000</td>-->
-                <td th:text="${payment.gameNumber}">200</td>
+                <td th:text="${payment.gameNumber != null ? payment.gameNumber : '-'}">200</td>
                 <td th:text="${payment.member.userId}">10</td>
                 <td th:text="${payment.member.name}">김00</td>
                 <td th:text="${payment.transactionStatus.value}">결제 완료</td>
@@ -173,9 +173,10 @@
         </table>
 
         <br>
-        <div id="bottom" style="text-align: center"
-             th:with="currPageText=${currPageNum}+1, max=${paymentList.getTotalPages() + 1}, pageSizeHalf=5/2">
-            <!--            <a href="/matchGetIt/admin/userList">[first]</a>-->
+        <div id="bottom" th:with="currPageText=${currPageNum}+1, max=${paymentList.getTotalPages() + 1}, pageSizeHalf=5/2">
+            <div th:onclick="|page(0)|">
+                <a><<</a>
+            </div>
 
             <div th:each="page2: ${#numbers.sequence(pageSizeHalf, 1)}" th:if="${currPageText - page2 > 0}" th:onclick="|page(${currPageNum - page2})|">
                 <a th:text="${currPageText - page2}"></a>
@@ -188,6 +189,10 @@
             <div th:each="page2: ${#numbers.sequence(1, pageSizeHalf)}" th:if="${currPageText + page2 < max}" th:onclick="|page(${currPageNum + page2})|">
                 <a th:text="${currPageText + page2}"></a>
             </div>
+
+            <div th:onclick="|page(${max - 2})|">
+                <a>>></a>
+            </div>
         </div>
     </div>
 </section>
@@ -196,6 +201,25 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
+        $(function () {
+            $("#userMenu").addClass('active');
+            $("#user-list").show();
+            $("#user-list li:nth-child(2)").addClass('active-menu');
+
+            $("#search-form").on("submit", function(e) {
+                e.preventDefault();
+                let checkStartDate = $("#checkStartDate").val();
+                let checkEndDate = $("#checkEndDate").val();
+
+                if (checkStartDate > checkEndDate) {
+                    alert("시작일은 종료일보다 이전이어야 합니다.");
+                    return false;
+                }
+
+                location.href = "/matchGetIt/payment/list/0?" + $(this).serialize();
+            });
+        });
+
         function page(page) {
             let query = location.search;
             location.href = "/matchGetIt/payment/list/"+ page + query;

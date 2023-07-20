@@ -94,6 +94,10 @@
 
     <script>
         $(function() {
+            $("#userMenu").addClass('active');
+            $("#user-list").show();
+            $("#user-list li:nth-child(1)").addClass('active-menu');
+
             // 체크박스 개수에 따라 전체 선택 체크박스를 체크 설정/해제
             $("input[name=selectedUser]").change(function() {
                 if ($("input[name=selectedUser]:checked").length === $("input[name=selectedUser]").length) {
@@ -255,13 +259,17 @@
         </table>
 
         <br>
-        <div id="bottom" th:with="currPageText=${currPageNum}+1, max=${userList.getTotalPages() + 1}, pageSizeHalf=5/2">
+        <div id="bottom" style="text-align: center" th:with="currPageText=${currPageNum}+1, max=${userList.getTotalPages() + 1}, pageSizeHalf=5/2">
 
 <!--            <div>1</div>-->
 <!--            <div>2</div>-->
 <!--            <div>3</div>-->
 
 <!--            <a href="/matchGetIt/admin/userList">[first]</a>-->
+
+            <div th:onclick="|page(0)|">
+                <a><<</a>
+            </div>
 
             <div th:each="page2: ${#numbers.sequence(pageSizeHalf, 1)}" th:if="${currPageText - page2 > 0}" th:onclick="|page(${currPageNum - page2})|">
                 <a th:text="${currPageText - page2}"></a>
@@ -273,6 +281,10 @@
 
             <div th:each="page2: ${#numbers.sequence(1, pageSizeHalf)}" th:if="${currPageText + page2 < max}" th:onclick="|page(${currPageNum + page2})|">
                 <a th:text="${currPageText + page2}"></a>
+            </div>
+
+            <div th:onclick="|page(${max - 2})|">
+                <a>>></a>
             </div>
         </div>
     </form>

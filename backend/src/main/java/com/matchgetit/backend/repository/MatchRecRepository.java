@@ -10,7 +10,9 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface MatchRecRepository extends JpaRepository<MatchRecEntity,Long> {
+public interface MatchRecRepository extends JpaRepository<MatchRecEntity,Long>, MatchRecRepositoryCustom {
     List<MatchRecEntity> findByMemberAndApplicationDate(MemberEntity member, Date applicationDate);
+
+    // Dashboard 사용
     long countByMatchStateIs(MatchState matchState);
 }

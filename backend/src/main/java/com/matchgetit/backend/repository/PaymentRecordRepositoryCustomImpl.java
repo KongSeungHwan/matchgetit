@@ -70,7 +70,7 @@ public class PaymentRecordRepositoryCustomImpl implements PaymentRecordRepositor
     private BooleanExpression searchDateBetween(SearchPaymentDTO searchPaymentDTO) {
         String searchDateStart = searchPaymentDTO.getCheckStartDate();
         String searchDateEnd = searchPaymentDTO.getCheckEndDate();
-        String dateType = searchPaymentDTO.getDateType();
+//        String dateType = searchPaymentDTO.getDateType();
 
         if (searchDateStart == null || searchDateEnd == null || searchDateStart.isEmpty() || searchDateEnd.isEmpty())
             return null;

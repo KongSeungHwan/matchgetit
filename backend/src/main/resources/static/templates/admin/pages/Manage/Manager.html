@@ -142,42 +142,46 @@
 </section>
 
 <th:block layout:fragment="script">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script>
-function viewUserDetails(userId) {
-  if (userId !== null) {
-    const url = '/matchGetIt/manager/managerInfo/' + userId;
-    window.location.href = url;
-  }
-}
-
-$(document).ready(function() {
-  // 페이지 로드 시 매니저 목록을 가져와서 테이블에 표시
-  loadManagers();
-
-  // 매니저 목록을 가져오고 테이블에 렌더링하는 함수
-  function loadManagers() {
-    $.ajax({
-      url: '/matchGetIt/manager/managers',
-      type: 'GET',
-      dataType: 'json',
-      success: function(response) {
-        renderManagers(response);
-      },
-      error: function(error) {
-        console.error(error);
+  <script>
+    function viewUserDetails(userId) {
+      if (userId !== null) {
+        const url = '/matchGetIt/manager/managerInfo/' + userId;
+        window.location.href = url;
       }
-    });
-  }
+    }
 
-  // 매니저 목록을 테이블에 렌더링하는 함수
-  function renderManagers(managers) {
-    const container = $('.row');
-    container.empty();
+    $(document).ready(function() {
+      $("#managerMenu").addClass('active');
+      $("#manager-list").show();
+      $("#manager-list li:nth-child(1)").addClass('active-menu');
 
-    for (const manager of managers) {
-      const card = `
+      // 페이지 로드 시 매니저 목록을 가져와서 테이블에 표시
+      loadManagers();
+
+      // 매니저 목록을 가져오고 테이블에 렌더링하는 함수
+      function loadManagers() {
+        $.ajax({
+          url: '/matchGetIt/manager/managers',
+          type: 'GET',
+          dataType: 'json',
+          success: function(response) {
+            renderManagers(response);
+          },
+          error: function(error) {
+            console.error(error);
+          }
+        });
+      }
+
+      // 매니저 목록을 테이블에 렌더링하는 함수
+      function renderManagers(managers) {
+        const container = $('.row');
+        container.empty();
+
+        for (const manager of managers) {
+          const card = `
         <div class="col-md-4 margin" style="display: inline-block;">
           <div class="card" style="border: 1px solid gray; padding: 10px; box-sizing: border-box; text-align: center;">
             <a onclick="viewUserDetails(${manager.userId})">
@@ -190,13 +194,13 @@ $(document).ready(function() {
           </div>
         </div>
       `;
-      container.append(card);
-    }
-  }
+          container.append(card);
+        }
+      }
 
 
-});
-</script>
+    });
+  </script>
 </th:block>
 
 </html>

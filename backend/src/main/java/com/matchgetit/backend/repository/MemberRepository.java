@@ -25,15 +25,15 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long>, Mem
     Page<MemberEntity> findByNameContainingIgnoreCaseAndLoginType(String name, LogInType loginType, Pageable pageable);
     Page<MemberEntity> findByManagerSupportStatus(ManagerSupportStatus managerSupportStatus, Pageable pageable); // 매니저 지원 상태로 회원 검색
 
-    // Dashboard 사용
-    long countByRegDate(Date regDate);
-    long countByRegDateBefore(Date regDate);
     List<MemberEntity> findByNameContaining(String name); //이름으로 검색
 
     @Query("SELECT m FROM MemberEntity m where m.name = :name And m.pn = :pn")
     MemberEntity findEmailByPhone(@Param("name") String name, @Param("pn") String pn);
 
+
+    // Dashboard 사용
     long countByRegDateBetween(Date from, Date to);
     long countByRegDateAfter(Date regDate);
+    long countByPartyIsNotNull();
 }
 

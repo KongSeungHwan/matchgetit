@@ -153,42 +153,46 @@
     }
 
     $(document).ready(function () {
-  // 페이지 로드 시 지원자 목록을 가져와서 테이블에 표시
-  loadApplicants();
+      $("#managerMenu").addClass('active');
+      $("#manager-list").show();
+      $("#manager-list li:nth-child(2)").addClass('active-menu');
 
-  // 지원자 목록을 가져오고 테이블에 렌더링하는 함수
-  function loadApplicants() {
-    $.ajax({
-      url: '/matchGetIt/apply/getSupportedUsers',
-      type: 'GET',
-      dataType: 'json',
-      success: function (response) {
-        renderApplicants(response);
-      },
-      error: function (error) {
-        console.error(error);
+      // 페이지 로드 시 지원자 목록을 가져와서 테이블에 표시
+      loadApplicants();
+
+      // 지원자 목록을 가져오고 테이블에 렌더링하는 함수
+      function loadApplicants() {
+        $.ajax({
+          url: '/matchGetIt/apply/getSupportedUsers',
+          type: 'GET',
+          dataType: 'json',
+          success: function (response) {
+            renderApplicants(response);
+          },
+          error: function (error) {
+            console.error(error);
+          }
+        });
       }
-    });
-  }
 
-  // 지원자 목록을 테이블에 렌더링하는 함수
-  function renderApplicants(applicants) {
-    const tbody = $('table tbody');
-    tbody.empty();
+      // 지원자 목록을 테이블에 렌더링하는 함수
+      function renderApplicants(applicants) {
+        const tbody = $('table tbody');
+        tbody.empty();
 
-    // 지원자 데이터를 테이블에 추가
-    applicants.forEach(applicant => {
-      const row = $('<tr></tr>');
-      row.append(`<td><input type="checkbox" name="selectedApplicant" value="${applicant.userId}" /></td>`);
-      row.append(`<td>${applicant.userId}</td>`);
-      row.append(`<td>${applicant.name}</td>`);
-      row.append(`<td>${applicant.pn}</td>`);
-      row.append(`<td>${applicant.gender}</td>`);
-      row.append(`<td>${applicant.managerSupportRecordDTO != null ? applicant.managerSupportRecordDTO.activityZone : '-'}</td>`);
-      row.append(`<td><button onclick="viewUserDetails('${applicant.userId}')">상세 정보</button></td>`);
-      tbody.append(row);
-    });
-  }
+        // 지원자 데이터를 테이블에 추가
+        applicants.forEach(applicant => {
+          const row = $('<tr></tr>');
+          row.append(`<td><input type="checkbox" name="selectedApplicant" value="${applicant.userId}" /></td>`);
+          row.append(`<td>${applicant.userId}</td>`);
+          row.append(`<td>${applicant.name}</td>`);
+          row.append(`<td>${applicant.pn}</td>`);
+          row.append(`<td>${applicant.gender}</td>`);
+          row.append(`<td>${applicant.managerSupportRecordDTO != null ? applicant.managerSupportRecordDTO.activityZone : '-'}</td>`);
+          row.append(`<td><button onclick="viewUserDetails('${applicant.userId}')">상세 정보</button></td>`);
+          tbody.append(row);
+        });
+      }
 
     });
   </script>

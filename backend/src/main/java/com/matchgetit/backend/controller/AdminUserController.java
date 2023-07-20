@@ -199,11 +199,4 @@ public class AdminUserController {
         }
     }
 
-    @PostMapping("/refund/{userId}")
-    @ResponseBody
-    public ResponseEntity<String> refund(@PathVariable Long userId, @RequestParam Long refundPrice) {
-        System.out.println(">>>>>>>>>>"+refundPrice);
-        return ResponseEntity.ok(null);
-    }
-
 }

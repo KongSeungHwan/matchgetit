@@ -34,7 +34,7 @@
                 <span>금일 신규 회원 수: <span th:text="${userCounts.get('signUpToday')}">00</span>명</span>
             </div>
             <div class="flexItem">
-                <span>현재 매칭 중인 회원: <span :text="${userCounts.get('matchingUsers')}">00</span>명</span>
+                <span>현재 매칭 중인 회원: <span th:text="${userCounts.get('matchingUsers')}">00</span>명</span>
             </div>
             <div class="flexItem">
                 <span>금일 탈퇴 회원 수: <span th:text="${userCounts.get('canceledMembership')}">00</span>명</span>

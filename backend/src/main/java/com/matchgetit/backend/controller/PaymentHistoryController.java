@@ -58,7 +58,7 @@ public class PaymentHistoryController {
     public String paymentList(Model model, @PathVariable("page") Optional<Integer> page, SearchPaymentDTO searchPaymentDTO) {
 //        System.out.println(searchPaymentDTO);
         Integer temp = searchPaymentDTO.getPageSize();
-        int pageSize = temp == null ? 5 : temp;
+        int pageSize = temp == null ? 10 : temp;
         Pageable pageable = PageRequest.of(page.orElse(0), pageSize);
 
 //        List<PaymentRecordDTO> paymentDTOList = paymentHistoryService.getPaymentRecordDTOList();

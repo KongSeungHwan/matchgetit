@@ -3,6 +3,7 @@ package com.matchgetit.backend.service;
 import com.matchgetit.backend.constant.AccountState;
 import com.matchgetit.backend.constant.Gender;
 import com.matchgetit.backend.constant.LogInType;
+import com.matchgetit.backend.constant.Proficiency;
 import com.matchgetit.backend.dto.AdminPageSearchUserDTO;
 import com.matchgetit.backend.dto.AdminPageUserDTO;
 import com.matchgetit.backend.dto.AdminPaymentUserDTO;
@@ -45,6 +46,7 @@ public class AdminPageUserService {
 //            member.setState("활동 중");
             member.setAccountState(AccountState.ACTIVE);
             member.setLoginType(LogInType.NORMAL);
+            member.setPrfcn(Proficiency.BEGINNER);
             userRepository.save(member);
         }
 
@@ -62,6 +64,7 @@ public class AdminPageUserService {
 //            user.setState("활동 중");
             member.setAccountState(AccountState.ACTIVE);
             member.setLoginType(LogInType.NORMAL);
+            member.setPrfcn(Proficiency.BEGINNER);
             if (i == 12 || i == 13) {
                 member.setLastConnectionDate(Date.valueOf(LocalDate.now().minusMonths(3)));
 //                user.setState("정지");

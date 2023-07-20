@@ -12,7 +12,7 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.thymeleaf.context.WebContext;
 
@@ -29,13 +29,13 @@ public class AdminMainController {
 
     @PostConstruct
     public void createUsers() {
-        dashboardService.createDashboradDataEntity();
+//        dashboardService.createDashboradDataEntity();
 //        userService.createUsers();
 //        dashboardService.createManagers();
 //        paymentService.createPayments();
 //        stadiumService.insertStadium();
-//        dashboardService.createMatches();
 //        dashboardService.createManagerApplicants();
+//        dashboardService.createMatches();
     }
 
     @GetMapping("/matchGetIt/admin/gate")
@@ -79,6 +79,14 @@ public class AdminMainController {
         ResponseEntity<String> response = new RestTemplate().exchange(request, String.class);
         System.out.println(">>>>>>>>>"+response.getBody());
         return "redirect:http://localhost:3000";
+    }
+
+
+    @PostMapping("/matchGetIt/admin/refund/{userId}")
+    @ResponseBody
+    public ResponseEntity<String> refund(@PathVariable Long userId, @RequestParam int refundPrice) {
+        paymentService.refund(userId, refundPrice);
+        return ResponseEntity.ok(null);
     }
 
 }

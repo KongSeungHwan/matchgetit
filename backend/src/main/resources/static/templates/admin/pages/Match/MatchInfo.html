@@ -10,6 +10,7 @@
             justify-content: center;
             flex-direction: column;
         }
+
         .title {
             text-align: center;
             margin-bottom: 70px
@@ -101,6 +102,29 @@
             border: 1px solid #eaeaea;
             padding: 5px;
         }
+
+        .table {
+            width: 100%;
+            display: flex;
+        }
+
+        .column {
+            width: 100%;
+        }
+
+        .column:first-child {
+            border-right: 1px solid #a6a6a6;
+        }
+
+        .column > div:first-child {
+            font-weight: bold;
+            padding: 5px;
+        }
+
+        .column > div {
+            padding: 2px 5px;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -110,38 +134,51 @@
         <div class="match-info-container">
             <div class="match-manager">
                 <span class="match-info-label">매니저:</span>
-                <span>공승환</span>
+                <span th:text="${game.managerName}">공승환</span>
 <!--                <button>매니저 변경</button>-->
             </div>
             <div>
                 <div class="match-info-item">
                     <span class="match-info-label">날짜:</span>
-                    <span>2023-05-21</span>
+                    <span th:text="${game.applicationDate}">2023-05-21</span>
                 </div>
                 <div class="match-info-item">
                     <span class="match-info-label">구장:</span>
-                    <span>한라 원앤원 구장 (구장ID: 123)</span>
+                    <span>
+                        <span th:text="${game.stadiumName}">한라 원앤원 구장</span> (구장ID: <span th:text="${game.stadiumId}">123</span> )
+                    </span>
                 </div>
                 <div class="match-info-item">
                     <span class="match-info-label">상태:</span>
-                    <span>완료</span>
+                    <span th:if="${game.matchState.name() == 'COMPLETE'}">완료</span>
+                    <span th:if="${game.matchState.name() == 'CANCELED'}">취소</span>
                 </div>
             </div>
             <div class="score">
                 <div>스코어</div>
-                <div>4 : 3</div>
+                <div>
+                    <span th:text="${game.getTeamA_Members().get(0).get('score')}">4</span> :
+                    <span th:text="${game.getTeamB_Members().get(0).get('score')}">3</span>
+                </div>
             </div>
             <div class="match-team">
-                <table>
+                <table style="display: none;">
                     <tr>
                         <th>팀 A</th><th>팀 B</th>
                     </tr>
                     <tr>
-                        <td>테스터1 (레벨: A)</td><td>테스터2 (레벨: A)</td>
+                        <td>
+                            <span>테스터1</span>
+                            (레벨: <span>A</span>)
+                        </td>
+                        <td>
+                            테스터2 (레벨: A)
+                        </td>
                     </tr>
+                    <!--
                     <tr>
                         <td>테스터3</td><td>테스터4</td>
-                    </tr><!--th:each 써야할 텐데-->
+                    </tr>
                     <tr>
                         <td>테스터5</td><td>테스터6</td>
                     </tr>
@@ -154,14 +191,35 @@
                     <tr>
                         <td>테스터11</td><td>테스터12</td>
                     </tr>
+                    -->
                 </table>
+
+                <div class="table">
+                    <div class="column">
+                        <div>팀 A</div>
+                        <div th:each="teamA_Member: ${game.teamA_Members}">
+                            <span th:text="${teamA_Member.get('memberName')}">테스터1</span>
+                            (레벨: <span th:text="${teamA_Member.get('memberLevel')}">A</span>)
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div>팀 B</div>
+                        <div th:each="teamB_Member: ${game.teamB_Members}">
+                            <span th:text="${teamB_Member.get('memberName')}">테스터1</span>
+                            (레벨: <span th:text="${teamB_Member.get('memberLevel')}">A</span>)
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="match-note">
+            <div class="match-note" th:unless="${game.etc == null || game.etc.isEmpty()}">
                 <div style="width: fit-content; padding-bottom: 5px">
-                    <span>특이사항/취소 사유</span>
+                    <span th:if="${game.matchState.name() == 'COMPLETE'}">경기 특이사항</span>
+                    <span th:if="${game.matchState.name() == 'CANCELED'}">취소 사유</span>
+<!--                    <span>특이사항/취소 사유</span>-->
                 </div>
                 <div>
-                    <span style="white-space: pre-line;" :text="${user.banReason}">테스트</span>
+<!--                    <span th:if="${game.etc == null || game.etc.isEmpty()}">없음</span>-->
+                    <span style="white-space: pre-line;" th:text="${game.etc}">테스트</span>
                 </div>
             </div>
         </div>

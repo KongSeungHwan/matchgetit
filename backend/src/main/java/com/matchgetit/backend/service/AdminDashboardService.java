@@ -38,12 +38,13 @@ public class AdminDashboardService {
             member.setPw("1234");
             member.setGender((i%2==0) ? Gender.FEMALE : Gender.MALE);
             member.setBDay(Date.valueOf("1998-06-"+i));
-            member.setRating(100L);
+            member.setRating(600L);
 //            member.setRegDate(Date.valueOf("2023-05-30"));
             member.setRegDate(new java.util.Date());
             member.setLastConnectionDate(Date.valueOf(LocalDate.now()));
             member.setAccountState(AccountState.ACTIVE);
             member.setLoginType(LogInType.MANAGER);
+            member.setPrfcn(Proficiency.MIDDLE);
             manager.setUser(member);
             manager.setRegistrationDate(LocalDateTime.now());
             manager.setManagerImage("https://");
@@ -74,6 +75,7 @@ public class AdminDashboardService {
             member.setLastConnectionDate(Date.valueOf(LocalDate.now()));
             member.setAccountState(AccountState.ACTIVE);
             member.setLoginType(LogInType.NORMAL);
+            member.setPrfcn(Proficiency.BEGINNER);
             member.setManagerSupportStatus(ManagerSupportStatus.WAITING);
             managerApplicant.setManagerUser(member);
             managerApplicant.setActivityZone("경기");
@@ -85,7 +87,7 @@ public class AdminDashboardService {
     }
 
     public void createMatches() {
-        for (int i=0; i<10; i++) {
+        for (int i=1; i<13; i++) {
             MatchRecEntity game = new MatchRecEntity();
             game.setApplicationDate(new java.util.Date());
             game.setApplicationTime("A");
@@ -95,6 +97,45 @@ public class AdminDashboardService {
             game.setManager(manager);
             StadiumEntity stadium = stadiumRepository.findById(1).orElseThrow(EntityNotFoundException::new);
             game.setStadium(stadium);
+
+            MemberEntity member = userRepository.findById((long) i).orElseThrow(EntityNotFoundException::new);
+            game.setMember(member);
+
+            if (i<=6) {
+                game.setTeam("A");
+                game.setMatchScore("4");
+            }
+            else {
+                game.setTeam("B");
+                game.setMatchScore("3");
+            }
+
+            matchRecRepository.save(game);
+        }
+
+        for (int i=1; i<13; i++) {
+            MatchRecEntity game = new MatchRecEntity();
+            game.setApplicationDate(new java.util.Date());
+            game.setApplicationTime("B");
+            game.setMatchState(MatchState.COMPLETE);
+
+            MemberEntity manager = userRepository.findById(23L).orElseThrow(EntityNotFoundException::new);
+            game.setManager(manager);
+            StadiumEntity stadium = stadiumRepository.findById(2).orElseThrow(EntityNotFoundException::new);
+            game.setStadium(stadium);
+
+            MemberEntity member = userRepository.findById((long) i+28).orElseThrow(EntityNotFoundException::new);
+            game.setMember(member);
+
+            if (i<=6) {
+                game.setTeam("A");
+                game.setMatchScore("5");
+            }
+            else {
+                game.setTeam("B");
+                game.setMatchScore("5");
+                game.setEtc("테스트 경기");
+            }
 
             matchRecRepository.save(game);
         }
@@ -115,6 +156,8 @@ public class AdminDashboardService {
         java.util.Date from = Date.valueOf(LocalDate.now());
         java.util.Date to = Date.valueOf(LocalDate.now().plusDays(1));
         userCounts.put("signUpToday", userRepository.countByRegDateBetween(from, to));
+
+        userCounts.put("matchingUsers", userRepository.countByPartyIsNotNull());
 
 //        long withdrawal = userRepository.countByRegDateBefore(Date.valueOf(LocalDate.now().minusDays(1)));
 //        System.out.println(withdrawal);

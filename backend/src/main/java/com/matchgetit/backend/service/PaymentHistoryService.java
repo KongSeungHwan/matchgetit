@@ -173,4 +173,21 @@ public class PaymentHistoryService {
         return new PageImpl<>(paymentDTOList, pageable, total);
     }
 
+
+    public void refund(Long userId, int price) {
+        PaymentRecordEntity payment = new PaymentRecordEntity();
+
+        payment.setPrice(-price);
+        payment.setTransactionDate(new Date());
+        payment.setTransactionStatus(PaymentStatus.REFUNDED);
+
+        payment.setCancelDate(new Date());
+        payment.setCanceledPrice(price);
+
+        MemberEntity member = memberRepository.findByUserId(userId);
+        payment.setMember(member);
+
+        paymentRecordRepository.save(payment);
+    }
+
 }
