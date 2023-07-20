@@ -1,0 +1,60 @@
+.resultContainer{
+    width:90%;
+    height:90%;
+    font-size:90%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 10px;
+    overflow-y: scroll;
+}
+.FRIENDLY{
+    background-color: #cfe8ec;
+}
+.LEAGUE{
+    background-color: #ea6969;
+}
+.resultContainer::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+.result{
+    text-align: center;
+    width:50%;
+    margin-bottom: 1%;
+    padding:1%;
+    border-radius: 20px;
+    background-color: white;
+    font-size: 70%;
+    font-weight:bold;
+    color: #344690;
+    text-shadow: 2px 2px 4px blue;
+}
+.matchTeamMember{
+    font-size:50%;
+    white-space: nowrap;
+    display: flex;
+    justify-content: center;
+}
+.teamView{
+    display: flex;
+}
+.uniform{
+    text-align: center;
+}
+.uniformImg{
+    width:40%;
+    height:40%;
+}
+.cancelButton{
+    width: 50%;
+}
+@media (max-width: 767px) {
+    .resultContainer{
+        font-size:65%;
+    }
+    .result{
+        width:80%;
+    }
+}

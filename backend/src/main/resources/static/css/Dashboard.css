@@ -1,0 +1,170 @@
+.info-tile {
+    /* border: 1px solid gray; */
+    /* background-color: rgb(180, 236, 255); */
+    box-shadow: 0 0 7px gray;
+    padding: 20px;
+    border-radius: 7px;
+    margin: 20px;
+    /*width: 250px; height: 250px;*/
+    overflow: auto;
+}
+
+.flexbox {
+    display: flex;
+    flex-direction: column;
+}
+
+.flexbox-row {
+    display: flex;
+}
+
+.flexItem {
+    text-align: center;
+    /*border: 1px solid lightgray;*/
+}
+
+.tile-header {
+    font-weight: bold;
+    font-size: 1.2rem;
+    /*margin-bottom: 10px;*/
+}
+
+.tile-header a {
+    color: #000;
+}
+
+.tile-body {
+    flex: 1;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.tile-body2 {
+    flex: 1;
+    padding-top: 10px;
+    justify-content: space-around;
+}
+
+.container {
+    padding: 50px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /*grid-template-rows: repeat(2, 1fr);*/
+    grid-auto-rows: 320px;
+    padding-right: 20px;
+}
+
+.stadium .flexbox {
+    background-color: #f1f1f1;
+    padding: 5px 10px;
+}
+
+.stadium .flexbox span:first-child {
+    margin-bottom: 5px;
+}
+
+.msgtile {
+    overflow: auto;
+    justify-content: flex-start;
+}
+
+.msgbox {
+    padding: 5px;
+    border: 1px solid lightgray;
+    border-radius: 7px;
+    margin: 5px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.msgtitle {
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.msgtile .tile-body {
+    align-items: normal;
+}
+
+.weather .flexbox {
+    padding: 5px;
+    border: 1px solid lightgray;
+}
+
+.weather .flexbox img {
+    margin: 3px 0;
+}
+
+.notify {
+    grid-row: 1/span 2;
+    grid-column: 4;
+    /*border: 1px solid gray;*/
+    margin-left: 20px;
+    box-shadow: 0 0 7px gray;
+}
+
+.notify-header {
+    padding: 20px;
+    padding-bottom: 0;
+    font-size: 1.5rem;
+}
+
+.notify-content {
+    padding: 5px 20px;
+    overflow: auto;
+}
+
+.notify-content div {
+    padding: 5px;
+    border: 1px solid lightgray;
+}
+
+.notify-content span:first-child {
+    color: #a6a6a6;
+}
+
+.notify-content span:last-child {
+    color: #a6a6a6;
+    font-size: 0.9rem;
+}
+
+.user {
+    grid-column: 1/span 3;
+    display: flex;
+    flex-direction: row;
+}
+
+.user canvas {
+    /*flex: 2;*/
+}
+
+.user .tile-header {
+    width: 150px;
+}
+
+.user .flexItem, .inquiry .flexItem {
+    background-color: #f1f1f1;
+    width: 300px;
+    padding: 7px;
+}
+
+.manager .flexItem, .match .flexItem {
+    background-color: #f1f1f1;
+    width: 300px;
+    padding: 3px;
+}
+
+#test {
+    position: absolute;
+    top: 130px;
+    right: 30px;
+}
+
+.hide {
+    display: none;
+}
+
+.inquiry div > span {
+    cursor: pointer;
+}

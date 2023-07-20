@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+<!--    <meta name="_csrf" th:content="${_csrf.token}"/>-->
+<!--    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
+    <title>유저 조회</title>
+
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        #bottom {
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        #bottom div {
+            padding: 5px 10px;
+            border: 1px solid lightgray;
+            cursor: pointer;
+        }
+
+        input[type="search"], select {
+            margin-right: 10px;
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script>
+        $(function () {
+            $("#search-form").submit(function () {
+                e.preventDefault();
+                location.href = "/matchGetIt/admin/inquiryBoard/0?" + $(this).serialize();
+            });
+        });
+
+        function page(page) {
+            let query = location.search;
+            location.href = "/matchGetIt/admin/searchUser/"+ page + query;
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <h2>환불할 유저 조회</h2>
+
+        <form method="get" name="search-form" id="search-form" th:object="${searchUserDTO}">
+            <div id="search-div2">
+                <label for="searchType">검색 유형</label>
+                <select id="searchType" th:field="*{searchType}">
+                    <option value="userId">회원 번호</option>
+                    <option value="userName">회원 이름</option>
+                    <option value="email">이메일 주소</option>
+                    <option value="phoneNum">연락처</option>
+                </select>
+
+                <label for="searchValue">검색어</label>
+                <input type="search" id="searchValue" th:field="*{searchValue}" />
+                <input type="submit" value="검색" />
+            </div>
+        </form>
+        <br>
+
+        <table>
+            <thead>
+            <tr>
+<!--                <td><input type="checkbox" id="checkAll" onclick="checkAllBox(this);" /></td>-->
+                <td>회원 번호</td>
+                <td>회원 성함</td>
+                <td>이메일 주소</td>
+                <td>연락처</td>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:if="${userList.isEmpty()}">
+                <td colspan="4" style="text-align: center;">
+                    등록된 회원이 없습니다.
+                </td>
+            </tr>
+
+            <tr th:each="user: ${userList.getContent()}">
+<!--                <td>-->
+<!--                    <input type="checkbox" name="selectedUser" th:value="${user.id}">-->
+<!--                </td>-->
+                <td th:text="${user.id}">123</td>
+                <td>
+                    <a th:href="@{'/matchGetIt/admin/refund/'+${user.id}}" th:text="${user.name}">김00</a>
+                </td>
+                <td th:text="${user.email}">0000@0000.com</td>
+                <td th:text="${user.phoneNum}">010-0000-0000</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <br>
+        <div id="bottom" style="text-align: center"
+             th:with="currPageText=${currPageNum}+1, max=${userList.getTotalPages() + 1}, pageSizeHalf=5/2">
+            <!--            <a href="/matchGetIt/admin/userList">[first]</a>-->
+
+            <div th:each="page2: ${#numbers.sequence(pageSizeHalf, 1)}" th:if="${currPageText - page2 > 0}" th:onclick="|page(${currPageNum - page2})|">
+                <a th:text="${currPageText - page2}"></a>
+            </div>
+
+            <div>
+                <span th:text="${currPageText}"></span>
+            </div>
+
+            <div th:each="page2: ${#numbers.sequence(1, pageSizeHalf)}" th:if="${currPageText + page2 < max}" th:onclick="|page(${currPageNum + page2})|">
+                <a th:text="${currPageText + page2}"></a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

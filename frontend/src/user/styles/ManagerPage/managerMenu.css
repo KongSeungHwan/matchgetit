@@ -1,0 +1,173 @@
+.manager-match {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.manager-match th,
+.manager-match td {
+    padding: 10px;
+    text-align: center;
+}
+
+.manager-match thead th {
+    background-color: #333;
+    color: #fff;
+    font-weight: bold;
+}
+
+.manager-match tbody th {
+    font-weight: bold;
+}
+
+.manager-match tbody td:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.manager-match tbody td.txt-right {
+    text-align: center;
+}
+
+.manager-match tbody tr:hover {
+    background-color: #f5f5f5;
+}
+.view,
+.delete {
+    border: none;
+    padding: 5px 10px;
+    color: #fff;
+    font-weight: bold;
+    background-color: #07b4f8;
+}
+.MngPage-wrap {
+    width: 100%;
+    height: 100%;
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    content: "";
+    background: rgba(0, 0, 0, 0.85);
+}
+
+.MngPage-box {
+    width: 50%;
+    height:80%;
+    padding: 70px;
+    transform: translate(-50%, -50%) scale(0.5);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    box-shadow: 0px 2px 16px rgba(0, 0, 0, 0.5);
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    overflow:auto;
+}
+
+.MngPage-box::-webkit-scrollbar {
+    width: 10px;
+}
+.MngPage-box::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+    border-radius: 10px;
+}
+.MngPage-box::-webkit-scrollbar-track {
+    background-color: grey;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px white;
+}
+.MngPage-box .signUpTitle{
+    margin-top: 5%;
+}
+.MngPage-box h2 {
+    color: #1a1a1a;
+}
+.MngPage-box h3 {
+    color: #888;
+}
+.MngPage-box .closeBtn {
+    position: absolute;
+    top: 10px; /* Adjust the top position as per your requirement */
+    right: 10px; /* Adjust the right position as per your requirement */
+    width: 35px;
+    cursor: pointer;
+}
+.MngPage-box .inner {
+    width: inherit;
+    text-align: center;
+}
+
+.MngPage-box .inner label {
+    font-size: .8em;
+    line-height: 4em;
+    text-transform: uppercase;
+    color: rgb(150, 150, 245);
+    transition: all .3s ease-in;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.MngPage-box .inner:before,.details-box .inner:after {
+    position: absolute;
+    content: '';
+    height: 1px;
+    width: inherit;
+    background: rgb(150, 215, 241);
+    left: 0;
+    transition: all .3s ease-in;
+}
+
+.MngPage-box .inner:before {
+    top: 50%;
+    transform: rotate(45deg);
+}
+
+.MngPage-box .inner:after {
+    bottom: 50%;
+    transform: rotate(-45deg);
+}
+
+.MngPage-box .closeBtn:hover label {
+    opacity: 1;
+}
+
+.closeBtn:hover .inner:before,
+.closeBtn:hover .inner:after {
+    transform: rotate(0);
+}
+
+.MngPage-box .closeBtn:hover .inner:before {
+    top: 0;
+}
+
+.closeBtn:hover .inner:after {
+    bottom: 0;
+}
+
+.transform-in, .transform-out {
+    display: block;
+    -webkit-transition: all ease 0.5s;
+    transition: all ease 0.5s;
+}
+
+.transform-in {
+    -webkit-transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.transform-out {
+    -webkit-transform: translate(-50%, -50%) scale(0.5);
+    transform: translate(-50%, -50%) scale(0.5);
+}
+.MngPage-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    height: 50vh;
+    width: 100%;
+}

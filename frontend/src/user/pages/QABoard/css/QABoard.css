@@ -1,0 +1,84 @@
+.QABoardTable{
+    width: 80%;
+    height: 50%;
+    text-align: center;
+    margin: 0 auto;
+    background-color: whitesmoke;
+    max-width: 900px;
+    min-width: 360px;
+}
+
+.bulletin-board{
+    height: 100%;
+    width: 100%;
+    max-width: 1000px;
+    min-width: 350px;
+    margin: 0 auto;
+    border: none;
+    align-items: center;
+    text-align: center;
+
+}
+.bulletin-board fieldset{
+    border: none;
+    margin: 0 auto;
+    align-items: center;
+    text-align: center;
+    padding: 0;
+    min-width: 350px;
+}
+
+
+.QABoardName{
+    text-align: center;
+    font-size: 50%;
+}
+
+.QABoardPaging{
+    margin: 0 auto;
+    text-align: center;
+}
+
+.QABoardContent{
+    margin-top: 5%;
+}
+
+.QATitle{
+    width: 50%;
+}
+
+.QAWriter{
+    width: 20%;
+}
+
+.QABtn {
+    color: white;
+    background-color: #07b4f8;
+    border-radius: 10px;
+    border-color: #07b4f8;
+    cursor: pointer;
+    border: transparent;
+}
+
+
+.QABoardContent{
+    
+}
+
+.QADate{
+    width:30%;
+}
+
+.QABoardTable tbody td {
+    line-height: 30px;
+}
+
+.QABoardTable thead{
+    background-color: #5fcf80;
+
+}
+
+.QABtnDiv{
+    margin: 0 auto;
+    text-align: center;
+}

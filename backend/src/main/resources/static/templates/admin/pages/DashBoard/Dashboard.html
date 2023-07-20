@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>매치기릿 관리자 페이지</title>
+
+    <link rel="stylesheet" th:href="@{/css/AdminHeader.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/Dashboard.css}" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+
+    <style></style>
+    <!-- <th:block th:replace="~{admin/AdminHeader.html::style}"></th:block> -->
+</head>
+<body>
+<!--<div th:replace="~{admin/AdminHeaderSimple.html::header}"></div>-->
+
+<header th:replace="~{/admin/components/Header/AdminHeader.html::header}"></header>
+<nav th:replace="~{/admin/components/Sidebar/NavigationBar.html::nav}"></nav>
+
+<section class="container">
+    <div class="info-tile flexbox user">
+        <div class="tile-header">
+            <a href="/matchGetIt/admin/userList">유저</a>
+        </div>
+        <canvas id="userChart"></canvas>
+        <div class="flexbox tile-body">
+            <div class="flexItem">
+                <span>총 회원 수: <span th:text="${userCounts.get('allUsers')}">00</span>명</span>
+            </div>
+            <div class="flexItem">
+                <span>금일 신규 회원 수: <span th:text="${userCounts.get('signUpToday')}">00</span>명</span>
+            </div>
+            <div class="flexItem">
+                <span>현재 매칭 중인 회원: <span :text="${userCounts.get('matchingUsers')}">00</span>명</span>
+            </div>
+            <div class="flexItem">
+                <span>금일 탈퇴 회원 수: <span th:text="${userCounts.get('canceledMembership')}">00</span>명</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-tile flexbox manager">
+        <div class="tile-header">
+            <a href="/matchGetIt/manager/managers">매니저</a>
+        </div>
+        <div class="flexbox tile-body">
+            <div class="flexItem">
+                <span>총 매니저 수: <span th:text="${managerCounts.get('allManagers')}">00</span>명</span>
+            </div>
+            <div class="flexItem">
+                <span>배정된 매니저 수: <span th:text="${managerCounts.get('assigned')}">00</span>명</span>
+            </div>
+            <div class="flexItem">
+                <span>미배정 매니저 수: <span th:text="${managerCounts.get('notAssigned')}">00</span>명</span>
+            </div>
+            <div class="flexItem">
+                <span>금일 휴무 매니저 수: <span th:text="${managerCounts.get('leftManagers')}">00</span>명</span>
+            </div>
+            <div class="flexItem">
+                <span>정지 매니저 수: <span th:text="${managerCounts.get('bannedManagers')}">00</span>명</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-tile flexbox msgtile hide">
+        <div class="tile-header">
+            <span>채팅 상담</span>
+        </div>
+        <div class="flexbox-row" style="margin: 10px 0;">
+            <span>전체: 00</span>
+            <span style="white-space: pre">&#9;</span>
+            <span>접수 대기/처리 중: 00</span>
+        </div>
+        <div class="flexbox tile-body">
+            <div class="msgbox">
+                <span class="msgtitle">상담 012347</span><br>
+                <span>임유진: 경기를 취소하고 싶은데요</span>
+            </div>
+            <div class="msgbox">
+                <span class="msgtitle">상담 012345</span><br>
+                <span>상담사: 네 잠시만 기다려주세요</span>
+            </div>
+            <div class="msgbox">
+                <span class="msgtitle">상담 012346</span><br>
+                <span>김선명: 결제가 자꾸 오류나요</span>
+            </div>
+            <div class="msgbox">
+                <span class="msgtitle">상담 012341</span><br>
+                <span>김준현: (이미지)</span>
+            </div>
+            <div class="msgbox">
+                <span class="msgtitle">상담 012341</span><br>
+                <span>000: 내용이 기이이이이이이이이이이이인 메시지</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-tile flexbox inquiry">
+        <div class="tile-header">
+            <a href="/matchGetIt/admin/inquiryBoard">문의</a>
+        </div>
+        <div class="flexbox tile-body">
+            <div class="flexItem">
+                <span onclick="linkToInquiryBoard(1)">오늘 등록된 문의: <span th:text="${inquiryCounts.get('registeredToday')}">00</span>개</span>
+            </div>
+            <div class="flexItem">
+                <span onclick="linkToInquiryBoard(2)">접수 대기 중인 문의: <span th:text="${inquiryCounts.get('waiting')}">00</span>개</span>
+            </div>
+            <div class="flexItem">
+                <span onclick="linkToInquiryBoard(3)">처리 중인 문의: <span th:text="${inquiryCounts.get('inProgress')}">00</span>개</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-tile flexbox-row stadium">
+        <div class="tile-header">
+            <a href="/matchGetIt/stadium">구장</a>
+        </div>
+        <canvas id="stadiumChart"></canvas>
+        <div class="flexbox-row tile-body2 hide">
+            <div class="flexbox">
+                <span>매칭 중</span>
+                <span>00구장</span>
+                <span>00구장</span>
+            </div>
+            <div class="flexbox">
+                <span>매칭 가능</span>
+                <span>00구장</span>
+                <span>00구장</span>
+            </div>
+            <div class="flexbox">
+                <span>매칭 불가</span>
+                <span>00구장</span>
+                <span>00구장</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-tile flexbox match">
+        <div class="tile-header">
+            <a href="/matchGetIt/admin/matchList">경기</a>
+        </div>
+        <div class="flexbox tile-body">
+            <div class="flexItem hide">
+                <span>오늘 예약된 경기: <span :text="${matchCounts.get('reservedToday')}">00</span>개</span>
+            </div>
+            <div class="flexItem">
+                <span>현재 인원 모집 완료된 경기: <span th:text="${matchCounts.get('allMatchWait')}">00</span>개</span>
+            </div>
+            <div class="flexItem">
+                <span>진행 중인 경기: <span th:text="${matchCounts.get('proceeding')}">00</span>개</span>
+            </div>
+            <div class="flexItem hide">
+                <span>진행 예정인 경기: <span :text="${matchCounts.get('startSoon')}">00</span>개</span>
+            </div>
+            <div class="flexItem">
+                <span>오늘 완료된 경기: <span th:text="${matchCounts.get('finished')}">00</span>개</span>
+            </div>
+            <div class="flexItem">
+                <span>오늘 취소된 경기: <span th:text="${matchCounts.get('canceled')}">00</span>개</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-tile flexbox weather">
+        <div class="tile-header">
+            <span>날씨</span>
+        </div>
+        <div style="margin-top: 5px">
+            <span>서울시 금천구</span>
+        </div>
+        <div class="flexbox-row tile-body2">
+            <div class="flexbox">
+                <span>6/1</span>
+                <img src="/templates/admin/styles/img/mainball.png" alt="Match Get it 로고" style="width: 50px; height: auto;">
+                <span>00~00도</span>
+                <span>강수 확률<br>00%</span>
+            </div>
+            <div class="flexbox">
+                <span>6/2</span>
+                <img src="/templates/admin/styles/img/mainball.png" alt="Match Get it 로고" style="width: 50px; height: auto;">
+                <span>00~00도</span>
+                <span>강수 확률<br>00%</span>
+            </div>
+            <div class="flexbox">
+                <span>6/3</span>
+                <img src="/templates/admin/styles/img/mainball.png" alt="Match Get it 로고" style="width: 50px; height: auto;">
+                <span>00~00도</span>
+                <span>강수 확률<br>00%</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="test" onclick="$('.notify').show(); $('#test').hide();" style="display: none;">
+        <b style="font-size: 1.2rem">알림창 열기</b>
+    </div>
+
+    <div class="notify" style="display: none;">
+        <div class="notify-header">
+            알림
+            <span style="float: right;" onclick="$('.notify').hide(); $('#test').show();"> > </span>
+            <hr>
+        </div>
+
+        <div class="notify-content">
+            <div>
+                <span>경기 취소</span><br>
+                <span>경기 취소 요청이 있습니다.</span><br>
+                <span>2023년 00월 00일</span>
+            </div>
+        </div>
+
+        <div class="notify-content">
+            <div>
+                <span>채팅 상담</span><br>
+                <span>000 회원이 채팅 상담을 요청했습니다.</span><br>
+                <span>2023년 00월 00일</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    const userChartArea = document.getElementById("userChart").getContext("2d");
+    // var userChart =
+    new Chart(userChartArea, {
+        type: 'line',
+        data: {
+            labels: ['06/20', '06/21', '06/22', '06/23', '06/24', '06/25', '06/26'],
+            datasets: [{
+                label: '총 회원 수 현황',
+                data: [188, 193, 200, 210, 225, 232, 240],
+                borderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 7
+            }]
+        },
+        // options: {
+        //     scales: {
+        //         y: {
+        //             beginAtZero: true
+        //         }
+        //     }
+        // }
+    });
+
+    const stadiumChartArea = document.getElementById("stadiumChart").getContext("2d");
+    new Chart(stadiumChartArea, {
+        type: 'doughnut',
+        data: {
+            labels: ['매칭 중', '매칭 가능', '매칭 불가'],
+            datasets: [{
+                label: '구장 수',
+                data: [18, 30, 10],
+                hoverOffset: 10
+            }]
+        }
+    })
+
+    function linkToInquiryBoard(cd) {
+        console.log('onclick')
+        let url = '/matchGetIt/admin/inquiryBoard';
+        switch (cd) {
+            case 1:
+                let today = new Date().toISOString().slice(0, 10);
+                url += '?regDateStart='+today+'&regDateEnd='+today;
+                break;
+            case 2:
+                url += '?state=접수 대기';
+                break;
+            case 3:
+                url += '?state=처리 중';
+                break;
+        }
+        location.href = url;
+    }
+</script>
+
+<th:block th:replace="~{/admin/components/Sidebar/NavigationBar.html::navFunc}" th:inline="javascript"></th:block>
+
+</body>
+</html>

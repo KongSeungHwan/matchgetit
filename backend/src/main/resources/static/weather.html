@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current Weather</title>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1859d1a3cc07166365149da03346b54c&libraries=services"></script>
+</head>
+
+<body>
+<h1>현재 도시와 날씨 정보</h1>
+<div id="currentCity"></div>
+<div id="weatherInfo"></div>
+
+<script>
+    //카카오map api(현재 위치)와 openWeatherApi(날씨) 활용
+    const openWeatherApiKey = '8f9a2d78e4ced421ff43d888eb8eaebd';
+    // 현재 위치한 도시 가져오기
+    navigator.geolocation.getCurrentPosition(function (position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        const geocoder = new kakao.maps.services.Geocoder();
+        geocoder.coord2RegionCode(longitude, latitude, function (result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+                const city = result[0].region_2depth_name;
+                document.getElementById("currentCity").innerHTML = "현재 도시: " + city;
+
+                // 날씨 정보 가져오기
+                const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${openWeatherApiKey}`;
+                fetch(weatherUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        // 날씨 정보 가져오기
+                        const weatherCode = data.weather[0].id;
+                        const temperature = (data.main.temp - 273.15).toFixed(1);
+                        const rain1h = data.rain && data.rain["1h"]; // 1시간 동안의 강수량 (mm)
+                        const rainProbability = data.rain && data.rain["3h"]; // 3시간 동안의 강수량 (mm)
+                        const humidity = data.main.humidity; // 습도 (%)
+
+                        // 날씨 코드를 한글로 변환
+                        let translatedWeather;
+                        if (weatherCode >= 200 && weatherCode < 300) {
+                            translatedWeather = "천둥번개";
+                        } else if (weatherCode >= 300 && weatherCode < 400) {
+                            translatedWeather = "이슬비";
+                        } else if (weatherCode >= 500 && weatherCode < 600) {
+                            translatedWeather = "비";
+                        } else if (weatherCode >= 600 && weatherCode < 700) {
+                            translatedWeather = "눈";
+                        } else if (weatherCode >= 700 && weatherCode < 800) {
+                            translatedWeather = "안개";
+                        } else if (weatherCode === 800) {
+                            translatedWeather = "맑음";
+                        } else if (weatherCode > 800) {
+                            translatedWeather = "흐림";
+                        } else {
+                            translatedWeather = "날씨 정보 없음";
+                        }
+
+                        let weatherInfo = `날씨: ${translatedWeather}, 온도: ${temperature}°C`;
+
+                        // 강수량 정보를 추가
+                        if (rain1h) {
+                            weatherInfo += `, 1시간 강수량: ${rain1h}mm`;
+                        }
+                        if (rainProbability) {
+                            weatherInfo += `, 3시간 강수량: ${rainProbability}mm`;
+                        }
+
+                        // 습도 정보를 추가
+                        if (humidity) {
+                            weatherInfo += `, 습도: ${humidity}%`;
+                        }
+
+                        document.getElementById("weatherInfo").innerHTML = weatherInfo;
+                    })
+                    .catch(error => console.log(error));
+
+                const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${openWeatherApiKey}`;
+
+                fetch(forecastUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        // 예보 데이터에서 강수 확률 가져오기
+                        const forecastList = data.list;
+                        const currentTime = new Date().getTime() / 1000;
+
+                        // 현재 시간 이후 첫 번째 예보 데이터 찾기
+                        const nextForecast = forecastList.find(forecast => forecast.dt > currentTime);
+
+                        if (nextForecast) {
+                            const rainProbability = nextForecast.pop; // 강수 확률 (예시로 pop 필드 사용)
+                            document.getElementById("weatherInfo").innerHTML = `${document.getElementById("weatherInfo").innerHTML}, 강수 확률: ${rainProbability * 100}%`;//1기준 100%
+                            //여기서 rainProbability를 이요해서 강수확률(1기준 100%)을 원하는 곳에 집어넣으면 된다!
+                        }
+                    })
+                    .catch(error => console.log(error));
+            }
+        });
+    });
+</script>
+</body>
+
+</html>

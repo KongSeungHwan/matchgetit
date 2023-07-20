@@ -1,0 +1,250 @@
+.detailsContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    box-sizing: border-box; /* optional: include padding in the total height */
+}
+.details-title{
+    margin-top: 5%;
+    font-weight: bold;
+    font-size: 2.7rem;
+    color: #07b4f8;
+}
+.match-information, .match_note_input{
+    flex-shrink: 0;
+}
+.match_note{
+    margin-top: 5%;
+}
+.match_note{
+    font-size: 2rem;
+}
+.Team_A, .Team_B{
+    border: 1px solid #000000;
+    border-radius: 10px;
+    margin: 10px auto;
+    overflow: auto;
+}
+.Team_A{margin-right: 5%}
+.Team_B{margin-left: 5%}
+
+.Team-information{
+    width: 100%;
+    justify-content: center;
+    display: flex;
+}
+.Team-name{
+    font-size: 1.3rem;
+}
+.match-information{
+    display: flex;
+    margin-bottom: 10%;
+
+}
+.input_score{
+    width: 50%;
+    background-color: #fff;
+    box-shadow: 0 0 1px 0 rgba(24, 94, 224, 0.15), 0 6px 12px 0 rgba(24, 94, 224, 0.15);
+    border: none;
+    margin-left: 5px;
+    font-size: 1.5rem;
+    padding:5%;
+}
+.input_note{
+    font-family: "Pacifico", sans-serif;
+    background-color: #fff;
+    box-shadow: 0 0 1px 0 rgba(24, 94, 224, 0.15), 0 6px 12px 0 rgba(24, 94, 224, 0.15);
+    border-radius: 20px;
+    height: 100px;
+    width: 70%;
+    padding: 5%;
+    font-weight:bold;
+    text-shadow: none;
+    font-size:200%;
+    border: none;
+    transition: text-shadow 0.5s, color 0.5s, background-color 0.5s, caret-color 0.5s;
+    resize: none;
+}
+.input_note:focus{
+    background-color: #c3ebef;
+    color: #3676d5;
+    caret-color: #3676d5;
+    text-shadow: #0a264f;
+    outline:none;
+}
+.input_note:focus::placeholder {
+    color: #3676d5;  /* 포커스 된 경우 placeholder 텍스트 색상 변경 */
+}
+.match_note_input{
+    width: 100%;
+}
+.details-wrap {
+    width: 100%;
+    height: 100%;
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    content: "";
+    background: transparent;
+}
+
+.details-box {
+    width: 80%;
+    height:120%;
+    padding: 70px;
+    transform: translate(-50%, -50%) scale(0.5);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    box-shadow: 0px 2px 16px rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    overflow:auto;
+    font-size: 1rem;
+}
+.match-date,.match-time,.match-stadium{
+    font-size: 1.8rem;
+    margin-right: 10px;
+}
+.details-box::-webkit-scrollbar {
+    width: 10px;
+    display: none;
+}
+.details-box .signUpTitle{
+    margin-top: 5%;
+}
+.details-box h2 {
+    color: #1a1a1a;
+}
+.details-box h3 {
+    color: #888;
+}
+.details-box .closeBtn3 {
+    position: absolute;
+    top: 10px; /* Adjust the top position as per your requirement */
+    right: 10px; /* Adjust the right position as per your requirement */
+    width: 35px;
+    cursor: pointer;
+}
+.details-box .inner {
+    width: inherit;
+    text-align: center;
+}
+
+.details-box .inner label {
+    font-size: 150%;
+    line-height: 4em;
+    text-transform: uppercase;
+    color: rgb(150, 150, 245);
+    transition: all .3s ease-in;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.details-box .inner:before,.details-box .inner:after {
+    position: absolute;
+    content: '';
+    height: 1px;
+    width: inherit;
+    background: rgb(150, 215, 241);
+    left: 0;
+    transition: all .3s ease-in;
+}
+
+.details-box .inner:before {
+    top: 50%;
+    transform: rotate(45deg);
+}
+
+.details-box .inner:after {
+    bottom: 50%;
+    transform: rotate(-45deg);
+}
+
+.details-box .closeBtn3:hover label {
+    opacity: 1;
+}
+
+.closeBtn3:hover .inner:before,
+.closeBtn3:hover .inner:after {
+    transform: rotate(0);
+}
+
+.details-box .closeBtn3:hover .inner:before {
+    top: 0;
+}
+
+.closeBtn3 {
+    width: 30px;
+    margin-right: 20px;
+}
+
+.closeBtn3 .inner label {
+    line-height: 2em;
+}
+.closeBtn3:hover .inner:after {
+    bottom: 0;
+}
+
+.transform-in, .transform-out {
+    display: block;
+    -webkit-transition: all ease 0.5s;
+    transition: all ease 0.5s;
+}
+
+.transform-in {
+    -webkit-transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.transform-out {
+    -webkit-transform: translate(-50%, -50%) scale(0.5);
+    transform: translate(-50%, -50%) scale(0.5);
+}
+.enter_button{
+    margin-top: 10%;
+    border-radius: 5px;
+    width: 150px;
+    height: 50px;
+    font-size: 1.5rem;
+    background: #07b4f8;
+    font-weight: bold;
+    color: #fff;
+}
+.details-title{
+    font-size:380%;
+    margin-bottom: 10%;
+}
+.match-data{
+    font-size:200%;
+}
+.input_score{
+    padding:1% 3%;
+}
+.match_note_input{
+    width:80%;
+    height:100%;
+}
+@media (max-width: 767px) {
+    .details-box {
+        width:160%;
+        height:90%;
+    }
+    .closeBtn3 {
+        width: 30px;
+    }
+    .match_note_input{
+        width: 100%;
+    }
+    .input_note{
+        width:90%;
+    }
+
+    .closeBtn3 .inner label {
+        line-height: 2em;
+    }
+}

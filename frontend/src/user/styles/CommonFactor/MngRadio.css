@@ -1,0 +1,77 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
+
+.radioCon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    --primary-color: #185ee0;
+    --secondary-color: #e6eef9;
+}
+
+.tabs {
+    display: flex;
+    position: relative;
+    background-color: #fff;
+    box-shadow: 0 0 1px 0 rgba(24, 94, 224, 0.15), 0 6px 12px 0 rgba(24, 94, 224, 0.15);
+    padding: 1.05rem;  /* 크기 감소 */
+    border-radius: 99px;
+    margin-bottom: 1.4%;
+}
+.tabs * {
+    z-index: 2;
+}
+
+input[type=radio] {
+    display: none;
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 4.725rem;  /* 크기 감소 */
+    width: 17.5rem;  /* 크기 감소 */
+    font-size: 2.1875rem;  /* 크기 감소 */
+    font-weight: 500;
+    border-radius: 99px;
+    cursor: pointer;
+    transition: color 0.15s ease-in;
+    color:grey;
+}
+.mode:checked + label {
+    color: var(--primary-color);
+}
+
+input[id=completeMatch]:checked ~ .glider {
+    transform: translateX(0);
+}
+
+input[id=cancelMatch]:checked ~ .glider {
+    transform: translateX(100%);
+}
+.glider {
+    position: absolute;
+    display: flex;
+    height: 4.725rem;  /* 크기 감소 */
+    width: 17.5rem;  /* 크기 감소 */
+    background-color: var(--secondary-color);
+    z-index: 1;
+    border-radius: 99px;
+    transition: 0.25s ease-out;
+}
+
+@media (max-width: 43.75rem) {  /* 700px를 rem으로 변경 */
+    .tabs {
+        padding: 1.05rem;
+    }
+    .tab {
+        height: 4.725rem;
+        width: 17.5rem;
+        font-size: 2.1875rem;
+    }
+    .glider {
+        height: 4.725rem;
+        width: 17.5rem;
+    }
+}

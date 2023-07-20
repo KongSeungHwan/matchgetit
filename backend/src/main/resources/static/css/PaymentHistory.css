@@ -1,0 +1,60 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+}
+
+
+.search-container {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.condition-container {
+    display: flex;
+    gap: 0 30px;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    /*margin-bottom: 10px;*/
+    margin-top: 10px;
+    gap: 0 15px;
+}
+
+.condition-group {
+    margin: 1rem 0;
+}
+
+.condition-container span {
+    margin-right: 7px;
+}
+
+
+.search-button, .reset-button, .payment-header button {
+    background-color: #C5E0B4;
+    color: #000000;
+    font-size: 1rem;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.download-button {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #4caf50;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}

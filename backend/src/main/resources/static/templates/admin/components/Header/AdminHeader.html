@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Match Get it - 관리자 페이지</title>
+  <style type="text/css">
+    .admin-info {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+    }
+
+    .admin-info .admin-name {
+      margin-right: 10px;
+      font-weight: bold;
+    }
+
+    .admin-info a {
+      color: #333;
+      text-decoration: none;
+    }
+    .logo {
+      padding-left: 10px;
+    }
+    .logo-a {
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">
+      <h3>
+        <a href="/matchGetIt/admin">
+          <img src="/templates/admin/styles/img/mainball.png" alt="Match Get it 로고" style="width: 35px; height: auto;">
+          <span> &nbsp;Match Get it 관리자 페이지</span>
+        </a>
+      </h3>
+      <div class="admin-info">
+        <span class="admin-name">
+          <span th:text="${session.member.name}">000</span> 관리자 님
+        </span>
+<!--        <a href="/matchGetIt/admin/logout">로그아웃</a>-->
+        <a href="http://localhost:3000">메인 페이지로</a>
+      </div>
+    </div>
+    <hr>
+  </header>
+</body>
+</html>

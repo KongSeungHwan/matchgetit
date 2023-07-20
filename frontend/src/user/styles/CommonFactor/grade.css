@@ -1,0 +1,55 @@
+.grade{
+    display: flex;
+    width:100%;
+}
+.icon{
+    margin-left:10%;
+    width:10%;
+    height:10%;
+    border-radius: 100%;
+    margin-right: 15%;
+}
+.gradeName{
+    margin-left:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight:bolder;
+}
+.BIGINNER {
+    /* BIGINNER 레벨에 대한 스타일 */
+    color: lightblue;
+}
+
+.MIDDLE {
+    /* MIDDLE 레벨에 대한 스타일 */
+    color: #f1cb8c;
+}
+
+.ADVANCED {
+    /* ADVANCED 레벨에 대한 스타일 */
+    color: #d0a8f5;
+}
+
+.PROFESSIONAL {
+    /* PROFESSIONAL 레벨에 대한 스타일 */
+    color: #174464;
+}
+.myPageIcon{
+    width:5%;
+    height:5%;
+    border-radius: 100%;
+}
+/*여러색상 줄줄이 넘어가는 효과*/
+@media (max-width: 767px) {
+    .icon{
+        width:15%;
+        height:15%;
+        margin-right:5%;
+    }
+    .myPageIcon{
+        width:30%;
+        height:5%;
+        border-radius: 100%;
+    }
+}

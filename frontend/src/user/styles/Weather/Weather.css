@@ -1,0 +1,154 @@
+.weatherImg{
+    width:60%;
+    height:60%;
+}
+
+.wBtn:focus { outline: none; }
+.wBtn:hover { opacity: .8; }
+.fa {
+    font-size: 20px;
+}
+.fa-plus {
+    color: white;
+    transition: 1s all ease 1s;
+}
+.currentCity{
+    font-weight: bolder;
+    white-space: nowrap;
+    padding: 5%;
+}
+.weatherInfo{
+    font-weight: bold;
+    white-space: nowrap;
+    padding: 5%;
+}
+.pool {
+    width: 100vw;
+    height: 100vh;
+    background: none;
+    position: fixed;
+    display: flex;
+    z-index: 5;
+    pointer-events: none;
+}
+.button-wrapper {
+    width: 54px;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-origin: 50% 50%;
+    right: 2%;
+    bottom: 3%;
+    transition: 1.25s all ease .9s;
+    pointer-events: none;
+}
+.wBtn {
+    width: 54px;
+    height: 54px;
+    border: none;
+    border-radius: 50%;
+    z-index: 4;
+    position: relative;
+    transition: 1.25s all ease .1s;
+    pointer-events: auto;
+}
+.main-button {
+    background: #00BFFF;
+    align-self: flex-end;
+}
+.layer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 54px;
+    height: 54px;
+    background: #00BFFF;
+    border-radius: 50%;
+    z-index: -99;
+    pointer-events: none;
+    transition: 1.25s all ease .5s;
+}
+.button-wrapper.clicked {
+    transform: rotate(180deg) translateY(-20px) translateX(20px);
+    right: 0;
+    bottom: 0;
+    transition: .3s all ease .6s;
+}
+.button-wrapper.clicked .main-button {
+    opacity: 0;
+    transition: .3s all ease .3s;
+}
+.button-wrapper.clicked .layer {
+    transform: scale(100);
+    transition: 1.25s all ease .9s;
+}
+.layered-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    z-index: 0;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: 0.7s all ease .3s;
+}
+.layered-content.active {
+    opacity: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    pointer-events: auto;
+}
+.close-button {
+    background: white;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    color: #00BFFF;
+}
+.layered-content.active .close-button {
+    animation: .2s bounceIn;
+}
+.content p {
+    color: white;
+    font-weight: 300;
+    text-align: center;
+    line-height: 1.5;
+    font-family: 'Roboto', sans-serif;
+}
+.content p a {
+    font-size: 12px;
+    background: transparent;
+    padding: 2.5px 5px;
+    color: #00BFFF;
+    text-decoration: none;
+    border-radius: 50px;
+    display: inline-block;
+    margin-left: 1.5px;
+}
+.content p {
+    opacity: 0;
+    position: relative;
+    top: -7.5px;
+    transition: .5s all ease .5s;
+}
+.layered-content.active .content p {
+    opacity: 1;
+    top: 0;
+    transition: .5s all ease 1s;
+}
+.ripple, .fa {
+    pointer-events: auto;
+}
