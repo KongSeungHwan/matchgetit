@@ -2,13 +2,11 @@ package com.matchgetit.backend.entity;
 
 import com.matchgetit.backend.constant.PaymentStatus;
 import jakarta.persistence.*;
-import listeners.PaymentRecordEntityListener;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.Date;
 
 @Entity
-@EntityListeners(value= PaymentRecordEntityListener.class)
 @Table(name = "payments")
 @Getter @Setter
 public class PaymentRecordEntity {
