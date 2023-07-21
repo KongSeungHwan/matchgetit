@@ -30,7 +30,7 @@
 
             success: function(data) {
                 if (data !== null) {
-                    console.log(data);
+                    // console.log(data);
                     if (data.loginType.toUpperCase() !== 'ADMIN') {
                         alert('잘못된 접근입니다.');
                         location.href='http://localhost:3000';
@@ -265,15 +265,27 @@
 </section>
 
 <script>
+    let arr1 = [[${monthList}]];
+    let arr2 = [[${dateOfMonthList}]];
+    let arr3 = [];
+    for (let i=0; i<7; i++) {
+        arr3.push(arr1[i]+"/"+arr2[i]);
+    }
+    // console.log([[${dateList}]]);
+
     const userChartArea = document.getElementById("userChart").getContext("2d");
+
     // var userChart =
     new Chart(userChartArea, {
         type: 'line',
         data: {
-            labels: ['06/20', '06/21', '06/22', '06/23', '06/24', '06/25', '06/26'],
+            // labels: ['06/20', '06/21', '06/22', '06/23', '06/24', '06/25', '06/26'],
+            // labels: ['06/20', '06/21', '06/22', '06/23', '06/24', '06/25', ''],
+            labels: arr3,
             datasets: [{
                 label: '총 회원 수 현황',
-                data: [188, 193, 200, 210, 225, 232, 240],
+                // data: [188, 193, 200, 210, 225, 232, 240],
+                data: [[${userChartData}]],
                 borderWidth: 2,
                 pointRadius: 5,
                 pointHoverRadius: 7

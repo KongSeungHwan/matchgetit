@@ -11,9 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional
@@ -167,6 +165,53 @@ public class AdminDashboardService {
     }
 
     @Transactional(readOnly = true)
+    public Map<String, Long> getUserChartDataMap() {
+        Map<String, Long> userChartData = new HashMap<>();
+        LocalDate today = LocalDate.now();
+
+        userChartData.put("today", userRepository.countByRegDateBefore(Date.valueOf(today.plusDays(1))));
+        userChartData.put("-1day", userRepository.countByRegDateBefore(Date.valueOf(today)));
+        userChartData.put("-2day", userRepository.countByRegDateBefore(Date.valueOf(today.minusDays(1))));
+        userChartData.put("-3day", userRepository.countByRegDateBefore(Date.valueOf(today.minusDays(2))));
+        userChartData.put("-4day", userRepository.countByRegDateBefore(Date.valueOf(today.minusDays(3))));
+        userChartData.put("-5day", userRepository.countByRegDateBefore(Date.valueOf(today.minusDays(4))));
+        userChartData.put("-6day", userRepository.countByRegDateBefore(Date.valueOf(today.minusDays(5))));
+
+        return userChartData;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Long> getUserChartData() {
+        List<Long> userChartData = new ArrayList<>();
+        List<LocalDate> dateList = getDateList();
+
+        for (LocalDate date: dateList) {
+            userChartData.add(userRepository.countByRegDateBefore(Date.valueOf(date)));
+        }
+
+//        userChartData.add(userRepository.countByRegDateBefore(Date.valueOf(today.minusDays(5))));
+//        userChartData.add(userRepository.countByRegDateBefore(Date.valueOf(today.minusDays(4))));
+//        userChartData.add(userRepository.countByRegDateBefore(Date.valueOf(today.minusDays(3))));
+//        userChartData.add(userRepository.countByRegDateBefore(Date.valueOf(today.minusDays(2))));
+//        userChartData.add(userRepository.countByRegDateBefore(Date.valueOf(today.minusDays(1))));
+//        userChartData.add(userRepository.countByRegDateBefore(Date.valueOf(today)));
+//        userChartData.add(userRepository.countByRegDateBefore(Date.valueOf(today.plusDays(1))));
+
+        return userChartData;
+    }
+
+    public List<LocalDate> getDateList() {
+        List<LocalDate> dateList = new ArrayList<>();
+        LocalDate today = LocalDate.now().minusDays(5);
+
+        for (int i=0; i<=6; i++) {
+            dateList.add(today.plusDays(i));
+        }
+
+        return dateList;
+    }
+
+    @Transactional(readOnly = true)
     public Map<String, Long> getManagerCounts() {
         Map<String, Long> managerCounts = new HashMap<>();
         managerCounts.put("allManagers", managerRepository.count());
@@ -193,6 +238,7 @@ public class AdminDashboardService {
         return matchCounts;
     }
 
+    @Transactional(readOnly = true)
     public Map<String, Long> getInquiryCounts() {
         Map<String, Long> inquiryCounts = new HashMap<>();
 

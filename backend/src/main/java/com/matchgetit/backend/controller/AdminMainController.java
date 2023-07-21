@@ -17,6 +17,12 @@ import org.springframework.web.client.RestTemplate;
 import org.thymeleaf.context.WebContext;
 
 import java.net.URI;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -68,6 +74,24 @@ public class AdminMainController {
 
         Map<String, Long> inquiryCounts = dashboardService.getInquiryCounts();
         model.addAttribute("inquiryCounts", inquiryCounts);
+
+
+        List<Long> userChartData = dashboardService.getUserChartData();
+        model.addAttribute("userChartData", userChartData);
+
+        List<LocalDate> dateList = dashboardService.getDateList();
+//        List<String> dateListStr = new ArrayList<>();
+        List<String> monthList = new ArrayList<>();
+        List<String> dateOfMonthList = new ArrayList<>();
+
+        for (LocalDate date: dateList) {
+//            dateListStr.add(date.minusDays(1).format(DateTimeFormatter.ofPattern("MM/dd")));
+            monthList.add(date.minusDays(1).format(DateTimeFormatter.ofPattern("MM")));
+            dateOfMonthList.add(date.minusDays(1).format(DateTimeFormatter.ofPattern("dd")));
+        }
+
+        model.addAttribute("monthList", monthList);
+        model.addAttribute("dateOfMonthList", dateOfMonthList);
 
         return "admin/pages/Dashboard/Dashboard";
     }
