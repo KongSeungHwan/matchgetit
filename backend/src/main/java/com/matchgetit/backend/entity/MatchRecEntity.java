@@ -2,12 +2,14 @@ package com.matchgetit.backend.entity;
 
 import com.matchgetit.backend.constant.MatchState;
 import jakarta.persistence.*;
+import listeners.MatchRecEntityListener;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
 
 @Entity
+@EntityListeners(value= MatchRecEntityListener.class)
 @Table(name="MATCH_REC")
 @Getter
 @Setter
