@@ -103,7 +103,7 @@ public class MemberEntity {
     private Date lastConnectionDate;
     @Enumerated(EnumType.STRING)
     @Column(name = "MANAGERSUPPORTSTATUS")
-    private ManagerSupportStatus managerSupportStatus; //매니저 지원의 현재 상태를 표시 미지원 "0",  지원"1"
+    private ManagerSupportStatus managerSupportStatus; //매니저 지원의 현재 상태를 표시 미지원 "0", 지원 "1"
     @Enumerated(EnumType.STRING)
     @Column(name = "PAY_STATE")
     private PayState payState;
@@ -139,6 +139,8 @@ public class MemberEntity {
         this.bDay = java.sql.Date.valueOf(userDto.getBirthday());
         this.rating = Long.valueOf(userDto.getScore());
     }
+
+
     // 관리자 페이지에서 유저 계정 정지할 때 사용
     public void banUser(Date banDateStart, Date banDateEnd, String banReason) {
         this.banDateStart = banDateStart;

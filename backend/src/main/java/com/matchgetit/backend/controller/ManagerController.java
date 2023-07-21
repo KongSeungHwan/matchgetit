@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 
@@ -194,7 +195,16 @@ public class ManagerController {
 
         member.setManagerDTO(managerDTO);
 
+        String regDate = managerDTO.getRegistrationDate().format(DateTimeFormatter.ISO_LOCAL_DATE);
+        String managerState = "";
+        if (managerDTO.getEmploymentStatus() == EmploymentStatus.active)
+            managerState = "활동 중";
+        else if (managerDTO.getEmploymentStatus() == EmploymentStatus.leave)
+            managerState = "휴직/정직";
+
         model.addAttribute("manager", member);
+        model.addAttribute("regDate", regDate);
+        model.addAttribute("managerState", managerState);
         return "admin/pages/Manage/ManagerInfo";
     }
 

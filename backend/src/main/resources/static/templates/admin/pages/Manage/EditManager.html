@@ -16,7 +16,7 @@
     .form-container label {
       display: flex;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 30px;
     }
 
     .form-container label > span {
@@ -29,7 +29,7 @@
     .form-container textarea {
       flex-grow: 1;
       padding: 8px;
-      margin-bottom: 15px;
+      /*margin-bottom: 15px;*/
     }
 
     .form-container textarea {
@@ -50,6 +50,14 @@
       justify-content: flex-end;
       margin-top: 10px;
     }
+
+    .form-container label > label {
+      margin-bottom: 0;
+    }
+
+    #leave-info label {
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 
@@ -60,9 +68,11 @@
       <div class="managerEntity-info-title">
         <h2>매니저 정보 수정</h2>
       </div>
+
       <form>
-        <p>매니저 번호: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <span th:text="${manager.managerDTO.managerId != null ? manager.managerDTO.managerId  : ''}"></span></p><br>
+        <p>매니저 번호:
+          <span th:text="${manager.managerDTO.managerId != null ? manager.managerDTO.managerId  : ''}" style="margin-left: 65px"></span>
+        </p><br>
 
         <label>
           <span>매니저 이름:</span>
@@ -76,7 +86,7 @@
 
         <label>
           <span>성별:</span>
-          <label><input type="radio" name="gender" value="MALE" th:checked="${manager.gender == 'MALE'}" onclick="updateGender('MALE')"> 남자</label>
+          <label><input type="radio" name="gender" value="MALE" th:checked="${manager.gender == 'MALE'}" onclick="updateGender('MALE')"> 남자</label>&nbsp;&nbsp;
           <label><input type="radio" name="gender" value="FEMALE" th:checked="${manager.gender == 'FEMALE'}" onclick="updateGender('FEMALE')"> 여자</label>
         </label>
 
