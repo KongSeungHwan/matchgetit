@@ -41,7 +41,7 @@
       </h3>
       <div class="admin-info">
         <span class="admin-name">
-          <span th:text="${session.member.name}">000</span> 관리자 님
+          <span id="adminName" th:text="${session.member == null ? '' : session.member.name}">000</span> 관리자 님
         </span>
 <!--        <a href="/matchGetIt/admin/logout">로그아웃</a>-->
         <a href="http://localhost:3000">메인 페이지로</a>

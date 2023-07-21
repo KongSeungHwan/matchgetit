@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!--suppress ThymeleafVariablesResolveInspection -->
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/admin/styles/layouts/AdminpageLayout2}">
@@ -50,7 +49,7 @@
 
         /* 페이지 링크 스타일 */
         #bottom a, #bottom span {
-            /*margin-right: 5px;*/
+            margin-right: 5px;
         }
 
         label {
@@ -73,10 +72,7 @@
 
     <script>
         $(function() {
-            $("#matchList").addClass('active');
-
             // 체크박스 개수에 따라 전체 선택 체크박스를 체크 설정/해제
-            /*
             $("input[name=selectedUser]").change(function() {
                 if ($("input[name=selectedUser]:checked").length === $("input[name=selectedUser]").length) {
                     $("#checkAll").prop("checked", true);
@@ -85,19 +81,17 @@
                     $("#checkAll").prop("checked", false);
                 }
             });
-            */
 
             $("#search-form").on("submit", function(e) {
                 e.preventDefault();
-                let matchDateStart = $("#matchDateStart").val();
-                let matchDateEnd = $("#matchDateEnd").val();
-
-                if (matchDateStart > matchDateEnd) {
+                let regDateStart = $("#regDateStart").val();
+                let regDateEnd = $("#regDateEnd").val();
+                if (regDateStart > regDateEnd) {
                     alert("시작일은 종료일보다 이전이어야 합니다.");
                     return false;
                 }
 
-                location.href = "/matchGetIt/admin/matchList/0?" + $(this).serialize();
+                location.href = "/matchGetIt/admin/inquiryBoard/0?" + $(this).serialize();
             });
         });
 
@@ -174,6 +168,7 @@
 </head>
 
 <section layout:fragment="content">
+
     <h2>경기 목록</h2>
 
     <form method="get" onsubmit="confirmDelete(this);" th:object="${userList}">
@@ -187,8 +182,8 @@
             <thead>
             <tr>
 <!--                <td><input type="checkbox" id="checkAll" onclick="checkAllBox(this);" /></td>-->
-<!--                <td>번호</td>-->
-                <td>경기일</td>
+                <td>번호</td>
+                <td>경기 시작일</td>
                 <td>경기 시간</td>
                 <td>구장</td>
                 <td>배정된 매니저</td>
@@ -204,15 +199,15 @@
                 </td>
             </tr>
 
-            <tr th:each="game: ${matchHistories.getContent()}">
+            <tr th:each="game: ${matchHistories}">
 <!--                <td>-->
 <!--                    <input type="checkbox" name="selectedUser" :value="${user.id}">-->
 <!--                </td>-->
-<!--                <td :text="${game.matchRecId}">123</td>-->
+                <td :text="${game.matchRecId}">123</td>
                 <td th:text="${game.applicationDate}">2023-00-00</td>
                 <td><span th:text="${game.applicationTime}">A</span>타임 <span th:text="${'('+game.matchTime+')'}">(00:00 ~ 00:00)</span></td>
                 <td th:text="${game.stadiumName}">
-                    <a th:href="@{'/matchGetIt/stadium/'+${game.stadiumName}}">한라 원앤원 구장</a>
+                    <a :href="@{'/matchGetIt/stadium/'+${}}">한라 원앤원 구장</a>
                 </td> <!-- 구장 정보 페이지로 링크 시키는 것도 좋을 듯 -->
                 <td th:text="${game.managerName}">공승환</td>
                 <td>
@@ -228,13 +223,14 @@
                 </td>
             </tr>
             </tbody>
+
         </table>
 
         <br>
-        <div id="bottom" th:with="currPageText=${currPageNum}+1, max=${matchHistories.getTotalPages() + 1}, pageSizeHalf=5/2">
-            <div th:onclick="|page(0)|">
-                <a><<</a>
-            </div>
+        <!--
+        <div id="bottom" style="text-align: center"
+             th:with="currPageText=${currPageNum}+1, max=${userList.getTotalPages() + 1}, pageSizeHalf=5/2">
+            <!-            <a href="/matchGetIt/admin/userList">[first]</a>->
 
             <div th:each="page2: ${#numbers.sequence(pageSizeHalf, 1)}" th:if="${currPageText - page2 > 0}" th:onclick="|page(${currPageNum - page2})|">
                 <a th:text="${currPageText - page2}"></a>
@@ -247,61 +243,45 @@
             <div th:each="page2: ${#numbers.sequence(1, pageSizeHalf)}" th:if="${currPageText + page2 < max}" th:onclick="|page(${currPageNum + page2})|">
                 <a th:text="${currPageText + page2}"></a>
             </div>
-
-            <div th:onclick="|page(${max - 2})|">
-                <a>>></a>
-            </div>
         </div>
+        -->
     </form>
 
     <br><hr><br>
-    <form method="get" name="search-form" id="search-form" th:object="${searchMatchDTO}">
+    <form method="get" name="search-form" id="search-form" :object="${searchUserDTO}">
         <div>
             <div id="search-div1">
-                <label>경기일</label>
-                <input type="date" th:field="*{matchDateStart}" /> ~
-                <input type="date" th:field="*{matchDateEnd}" />
+                <label>경기 날짜</label>
+                <input type="date" :field="*{regDateStart}" /> ~
+                <input type="date" :field="*{regDateEnd}" />
 
-                <label for="matchTime" style="margin-left: 10px">경기 시간</label>
-                <select id="matchTime" th:field="*{matchTime}">
-                    <option value="">전체</option>
-                    <option value="A">A타임</option>
-                    <option value="B">B타임</option>
-                    <option value="C">C타임</option>
-                    <option value="D">D타임</option>
-                    <option value="E">E타임</option>
-                    <option value="F">F타임</option>
-                </select>
-
-                <label for="matchState" style="margin-left: 10px">경기 상태</label>
-                <select id="matchState" th:field="*{matchState}">
+                <label for="accountState" style="margin-left: 10px">경기 상태</label>
+                <select id="accountState" :field="*{accountState}">
                     <option value="">전체</option>
 <!--                    <option value="대기 중">대기 중</option>-->
 <!--                    <option value="진행 중">진행 중</option>-->
-                    <option value="COMPLETE">완료</option>
-                    <option value="CANCELED">취소</option>
+                    <option value="완료">완료</option>
+                    <option value="취소">취소</option>
                 </select>
             </div>
             <br>
 
             <div id="search-div2">
-                <!--
                 <label for="searchType">검색 유형</label>
-                <select id="searchType" th:field="*{searchType}">
+                <select id="searchType" :field="*{searchType}">
                     <option value="userId">경기 번호</option>
                     <option value="userName">구장 이름</option>
                 </select>
-                -->
 
-                <label for="stadiumName">구장명 검색</label>
-                <input type="search" id="stadiumName" th:field="*{stadiumName}" />
+                <label for="searchValue">검색어</label>
+                <input type="search" id="searchValue" :field="*{searchValue}" />
                 <input type="submit" value="검색" />
             </div>
             <br>
 
             <div id="paging">
                 <label for="pageSize">한 페이지에 보여줄 경기 수</label>
-                <select id="pageSize" th:field="*{pageSize}">
+                <select id="pageSize" :field="*{pageSize}">
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="20">20</option>

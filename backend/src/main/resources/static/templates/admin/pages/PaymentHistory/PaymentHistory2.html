@@ -41,7 +41,7 @@
 
         <hr>
         <div class="search-container">
-            <form id="search-form" th:object="${searchPaymentDTO}">
+            <form th:object="${searchPaymentDTO}">
                 <div class="condition-container">
                     <div>
                         <div class="condition-group">
@@ -164,7 +164,7 @@
 <!--                <td th:text="${payment.cancelDate != null ? payment.cancelDate : '-'}">2023-00-00</td>-->
                 <td th:text="${payment.price}">10000</td>
 <!--                <td th:text="${payment.canceledPrice}">5000</td>-->
-                <td th:text="${payment.gameNumber != null ? payment.gameNumber : '-'}">200</td>
+                <td th:text="${payment.gameNumber}">200</td>
                 <td th:text="${payment.member.userId}">10</td>
                 <td th:text="${payment.member.name}">김00</td>
                 <td th:text="${payment.transactionStatus.value}">결제 완료</td>
@@ -201,25 +201,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        $(function () {
-            $("#userMenu").addClass('active');
-            $("#user-list").show();
-            $("#user-list li:nth-child(2)").addClass('active-menu');
-
-            $("#search-form").on("submit", function(e) {
-                e.preventDefault();
-                let checkStartDate = $("#checkStartDate").val();
-                let checkEndDate = $("#checkEndDate").val();
-
-                if (checkStartDate > checkEndDate) {
-                    alert("시작일은 종료일보다 이전이어야 합니다.");
-                    return false;
-                }
-
-                location.href = "/matchGetIt/payment/list/0?" + $(this).serialize();
-            });
-        });
-
         function page(page) {
             let query = location.search;
             location.href = "/matchGetIt/payment/list/"+ page + query;

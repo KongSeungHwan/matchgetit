@@ -13,6 +13,47 @@
 
     <style></style>
     <!-- <th:block th:replace="~{admin/AdminHeader.html::style}"></th:block> -->
+    <script>
+        let token = $("meta[name='_csrf']").attr("content");
+        let header = $("meta[name='_csrf_header']").attr("content");
+
+        $.ajax({
+            url: "/matchGetIt/auth/session",
+            type: "POST",
+            // dataType : "json",
+            cache: false,
+
+            beforeSend: function(xhr) { //XHR : XmlHttpRequest
+                /* 데이터를 전송하기 전에 헤더에 csrf 값을 설정 */
+                xhr.setRequestHeader(header, token);
+            },
+
+            success: function(data) {
+                if (data !== null) {
+                    console.log(data);
+                    if (data.loginType.toUpperCase() !== 'ADMIN') {
+                        alert('잘못된 접근입니다.');
+                        location.href='http://localhost:3000';
+                    }
+                }
+                else {
+                    alert('잘못된 접근입니다.');
+                    location.href='http://localhost:3000';
+                }
+            },
+
+            error: function(jqXHR, status, error) {
+                if (jqXHR.status === 401) {
+                    alert("로그인 후 이용해주세요");
+                    location.href='http://localhost:3000';
+                }
+                else {
+                    alert(jqXHR.responseJSON.message);
+                    alert("실패");
+                }
+            }
+        });
+    </script>
 </head>
 <body>
 <!--<div th:replace="~{admin/AdminHeaderSimple.html::header}"></div>-->
