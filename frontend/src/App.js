@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Header from "./user/components/Header";
 import Main from "./user/components/Main";
 import WeatherMenu from "./user/components/Weather/WeatherMenu";
+import './App.css';
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);

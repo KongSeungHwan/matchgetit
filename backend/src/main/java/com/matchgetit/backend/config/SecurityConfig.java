@@ -45,7 +45,7 @@ public class SecurityConfig {
             return jwtTokenProvider.validateToken(headerToken);
         }
         if (token != null) {
-            System.out.println(jwtTokenProvider.validateToken(token));
+//            System.out.println(jwtTokenProvider.validateToken(token));
             return jwtTokenProvider.validateToken(token);
         }else{
             return false;

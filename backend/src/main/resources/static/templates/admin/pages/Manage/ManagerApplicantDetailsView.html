@@ -14,6 +14,7 @@
     }
 
     .user-info-title {
+        width: 500px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -24,7 +25,7 @@
         color: #336633;
     }
 
-    .user-info-title button {
+    .user-info-title button, #back-btn {
         margin-left: 10px;
         padding: 5px 10px;
         font-size: 1em;
@@ -34,6 +35,10 @@
         cursor: pointer;
     }
 
+    #back-btn {
+        margin-left: 0;
+        margin-top: 10px;
+    }
     </style>
 </head>
 
@@ -43,20 +48,26 @@
         <div class="user-info-title">
             <!-- 매니저 지원자 유저 정보를 표시할 부분 -->
             <h2>
-                <span th:text="${member.name}"></span>지원자의 정보
-                <button id="registerButton" style="margin-left: 100px;">등록</button>
-                <button id="rejectButton">등록 거절</button>
+                <span th:text="${member.name}"></span> 지원자의 정보
             </h2>
+            <div>
+                <button id="registerButton">등록</button>
+                <button id="rejectButton">등록 거절</button>
+            </div>
         </div>
-        <p>유저 번호: <span th:text="${member.userId}"></span></p><br>
+        <p>유저 번호: <span th:text="${member.userId}"></span></p>
         <p>지원자 이름: <span th:text="${member.name}"></span></p>
+        <p>이메일 주소: <span th:text="${member.email}"></span></p>
         <p>연락처: <span th:text="${member.pn}"></span></p>
-        <p>성별: <span th:text="${member.gender}"></span></p><br>
-        <p>숙련도: <span th:text="${member.rating}"></span></p><br>
+        <p>성별: <span th:text="${member.gender.value}"></span></p>
+        <p>숙련도: <span th:text="${member.rating}"></span></p>
         <p>가입일: <span th:text="${member.regDate}"></span></p><br>
         <!-- managerSupportRecordDTO의 activityZone 표시 -->
         <p>희망 활동 지역: <span th:text="${member.managerSupportRecordDTO != null ? member.managerSupportRecordDTO.activityZone : '-'}"></span></p>
-        <p>지원일: <span th:text="${member.managerSupportRecordDTO != null ? member.managerSupportRecordDTO.submissionDate : '-'}"></span></p><br>
+        <p>지원일: <span th:text="${member.managerSupportRecordDTO != null ? member.managerSupportRecordDTO.submissionDate.toString().substring(0, 16) : '-'}"></span></p>
+
+        <br>
+        <button type="button" id="back-btn" onclick="location.href='/matchGetIt/apply/getSupportedUsers';">목록으로 돌아가기</button>
     </div>
 </section>
 

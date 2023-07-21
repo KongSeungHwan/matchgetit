@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 public interface MemberRepository extends JpaRepository<MemberEntity, Long>, MemberRepositoryCustom {
     MemberEntity findByEmail(String email); //로그인 때 사용
-    MemberEntity findByUserId(Long userId);//대기열에서 회원정보 찾을 시 사용.
+    MemberEntity findByUserId(Long userId); //대기열에서 회원정보 찾을 시 사용.
     MemberEntity findByPn(String pn);
     Page<MemberEntity> findByLoginType(LogInType loginType, Pageable pageable);
     List<MemberEntity> findByLoginType(LogInType loginType);
@@ -34,6 +34,7 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long>, Mem
     // Dashboard 사용
     long countByRegDateBetween(Date from, Date to);
     long countByRegDateAfter(Date regDate);
+    long countByRegDateBefore(Date regDate);
     long countByPartyIsNotNull();
 }
 
