@@ -18,13 +18,17 @@ import java.util.*;
 @RequiredArgsConstructor
 public class AdminDashboardService {
     private final DashboardDataRepository dashboardRepository;
+
     private final MemberRepository userRepository;
     private final ManagerRepository managerRepository;
+    private final ManagerSupportRecordRepository managerApplicantRepo;
+
     private final MatchWaitRepository matchWaitRepository;
     private final MatchRecRepository matchRecRepository;
+
     private final InquiryRepository inquiryRepository;
     private final StadiumRepository stadiumRepository;
-    private final ManagerSupportRecordRepository managerApplicantRepo;
+    private final PaymentRecordRepository paymentRepository;
 
     public void createManagers() {
         for (int i=21; i<=30; i++) {
@@ -165,22 +169,6 @@ public class AdminDashboardService {
     }
 
     @Transactional(readOnly = true)
-    public Map<String, Long> getUserChartDataMap() {
-        Map<String, Long> userChartData = new HashMap<>();
-        LocalDate today = LocalDate.now();
-
-        userChartData.put("today", userRepository.countByRegDateBefore(Date.valueOf(today.plusDays(1))));
-        userChartData.put("-1day", userRepository.countByRegDateBefore(Date.valueOf(today)));
-        userChartData.put("-2day", userRepository.countByRegDateBefore(Date.valueOf(today.minusDays(1))));
-        userChartData.put("-3day", userRepository.countByRegDateBefore(Date.valueOf(today.minusDays(2))));
-        userChartData.put("-4day", userRepository.countByRegDateBefore(Date.valueOf(today.minusDays(3))));
-        userChartData.put("-5day", userRepository.countByRegDateBefore(Date.valueOf(today.minusDays(4))));
-        userChartData.put("-6day", userRepository.countByRegDateBefore(Date.valueOf(today.minusDays(5))));
-
-        return userChartData;
-    }
-
-    @Transactional(readOnly = true)
     public List<Long> getUserChartData() {
         List<Long> userChartData = new ArrayList<>();
         List<LocalDate> dateList = getDateList();
@@ -188,14 +176,6 @@ public class AdminDashboardService {
         for (LocalDate date: dateList) {
             userChartData.add(userRepository.countByRegDateBefore(Date.valueOf(date)));
         }
-
-//        userChartData.add(userRepository.countByRegDateBefore(Date.valueOf(today.minusDays(5))));
-//        userChartData.add(userRepository.countByRegDateBefore(Date.valueOf(today.minusDays(4))));
-//        userChartData.add(userRepository.countByRegDateBefore(Date.valueOf(today.minusDays(3))));
-//        userChartData.add(userRepository.countByRegDateBefore(Date.valueOf(today.minusDays(2))));
-//        userChartData.add(userRepository.countByRegDateBefore(Date.valueOf(today.minusDays(1))));
-//        userChartData.add(userRepository.countByRegDateBefore(Date.valueOf(today)));
-//        userChartData.add(userRepository.countByRegDateBefore(Date.valueOf(today.plusDays(1))));
 
         return userChartData;
     }
@@ -249,6 +229,36 @@ public class AdminDashboardService {
         inquiryCounts.put("waiting", inquiryRepository.countByStateContains("접수 대기"));
         inquiryCounts.put("inProgress", inquiryRepository.countByStateContains("처리 중"));
         return inquiryCounts;
+    }
+
+
+    public void deleteUser(Long userId) {
+        MemberEntity member = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+
+        ManagerEntity manager = member.getManagerEntity();
+        if (manager != null) {
+            List<MatchRecEntity> matchHistories = matchRecRepository.findByManager(member);
+            for (MatchRecEntity match: matchHistories) {
+                match.setManager(null);
+            }
+            managerRepository.delete(manager);
+        }
+
+        if (member.getManagerSupportRecordEntity() != null) {
+            managerApplicantRepo.delete(member.getManagerSupportRecordEntity());
+        }
+
+        List<PaymentRecordEntity> paymentList = paymentRepository.findByMember(member);
+        for (PaymentRecordEntity payment: paymentList) {
+            payment.setMember(null);
+        }
+
+        List<MatchRecEntity> matchHistories = matchRecRepository.findByMember(member);
+        for (MatchRecEntity match: matchHistories) {
+            match.setMember(null);
+        }
+
+        userRepository.delete(member);
     }
 
 }

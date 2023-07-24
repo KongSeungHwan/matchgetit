@@ -8,6 +8,7 @@ import com.matchgetit.backend.dto.AdminPageSearchUserDTO;
 import com.matchgetit.backend.dto.AdminPageUserDTO;
 import com.matchgetit.backend.dto.AdminPaymentUserDTO;
 import com.matchgetit.backend.entity.MemberEntity;
+import com.matchgetit.backend.entity.PaymentRecordEntity;
 import com.matchgetit.backend.repository.ManagerRepository;
 import com.matchgetit.backend.repository.ManagerSupportRecordRepository;
 import com.matchgetit.backend.repository.MemberRepository;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @Transactional
@@ -107,16 +109,16 @@ public class AdminPageUserService {
         return member.getUserId();
     }
 
-    public void deleteUser(Long userId) {
-        MemberEntity member = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
-        if (member.getManagerEntity() != null) {
-            managerRepository.delete(member.getManagerEntity());
-        }
-        if (member.getManagerSupportRecordEntity() != null) {
-            managerSupportRepository.delete(member.getManagerSupportRecordEntity());
-        }
-        userRepository.delete(member);
-    }
+//    public void deleteUser(Long userId) {
+//        MemberEntity member = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+//        if (member.getManagerEntity() != null) {
+//            managerRepository.delete(member.getManagerEntity());
+//        }
+//        if (member.getManagerSupportRecordEntity() != null) {
+//            managerSupportRepository.delete(member.getManagerSupportRecordEntity());
+//        }
+//        userRepository.delete(member);
+//    }
 
 
     public void banUser(Long userId, Date banDateStart, Date banDateEnd, String banReason) {
