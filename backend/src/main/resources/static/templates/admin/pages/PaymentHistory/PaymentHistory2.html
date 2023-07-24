@@ -165,8 +165,8 @@
                 <td th:text="${payment.price}">10000</td>
 <!--                <td th:text="${payment.canceledPrice}">5000</td>-->
                 <td th:text="${payment.gameNumber != null ? payment.gameNumber : '-'}">200</td>
-                <td th:text="${payment.member.userId}">10</td>
-                <td th:text="${payment.member.name}">김00</td>
+                <td th:text="${payment.member == null ? '0' : payment.member.userId}">10</td>
+                <td th:text="${payment.member == null ? '탈퇴한 유저' : payment.member.name}">김00</td>
                 <td th:text="${payment.transactionStatus.value}">결제 완료</td>
             </tr>
             </tbody>

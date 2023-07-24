@@ -3,6 +3,7 @@ package com.matchgetit.backend.controller;
 import com.matchgetit.backend.dto.AdminPageSearchUserDTO;
 import com.matchgetit.backend.dto.AdminPageUserDTO;
 import com.matchgetit.backend.dto.AdminPaymentUserDTO;
+import com.matchgetit.backend.service.AdminDashboardService;
 import com.matchgetit.backend.service.AdminPageUserService;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityNotFoundException;
@@ -27,6 +28,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AdminUserController {
     private final AdminPageUserService userService;
+    private final AdminDashboardService dashboardService;
 
     private final String path = "admin/pages/User/";
     private final String alertViewPath = "admin/components/Utils/alert";
@@ -63,7 +65,7 @@ public class AdminUserController {
     @DeleteMapping("/userList")
     public @ResponseBody ResponseEntity<String> deleteUsers(@RequestParam(value = "arr[]") String[] users) {
         for (String userId: users) {
-            userService.deleteUser(Long.valueOf(userId));
+            dashboardService.deleteUser(Long.valueOf(userId));
         }
 //        return new ResponseEntity<>(HttpStatus.OK);
         return ResponseEntity.ok(null);
@@ -113,7 +115,7 @@ public class AdminUserController {
     // 유저 정보 조회 페이지에서 유저 삭제 버튼 눌렀을 때
     @GetMapping("/deleteUser/{userId}")
     public String deleteUser(Model model, @PathVariable("userId") Long userId) {
-        userService.deleteUser(userId);
+        dashboardService.deleteUser(userId);
 //        return "redirect:/matchGetIt/admin/userList";
         model.addAttribute("msg", "삭제하였습니다.");
         model.addAttribute("url", "/matchGetIt/admin/userList");

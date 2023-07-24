@@ -13,6 +13,9 @@ import java.util.List;
 public interface MatchRecRepository extends JpaRepository<MatchRecEntity,Long>, MatchRecRepositoryCustom {
     List<MatchRecEntity> findByMemberAndApplicationDate(MemberEntity member, Date applicationDate);
 
+    List<MatchRecEntity> findByMember(MemberEntity member);
+    List<MatchRecEntity> findByManager(MemberEntity manager);
+
     // Dashboard 사용
     long countByMatchStateIs(MatchState matchState);
 }
