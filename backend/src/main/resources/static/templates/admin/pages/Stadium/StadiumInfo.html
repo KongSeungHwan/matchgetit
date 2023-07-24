@@ -22,7 +22,7 @@
             width: 20px;
         }
 
-        #edit_stdBtn, #delete_stdBtn{
+        #edit_stdBtn, #delete_stdBtn, #back-btn{
             text-align: center;
             font-size: 12px;
             width: 80px;
@@ -80,9 +80,10 @@
                 </fieldset>
             </div>
             <div class="std_InfoBtn">
-                <input type="button" value="수정" placeholder="수정" id="edit_stdBtn" onclick='location.href="EditStadium.html"' th:onclick="|location.href='@{/matchGetIt/stadium/{stdName}/edit(stdName=${list.stdName})}'|"></input>
+                <input type="button" value="수정" placeholder="수정" id="edit_stdBtn" th:onclick="|location.href='@{/matchGetIt/stadium/{stdName}/edit(stdName=${list.stdName})}'|">
                 <input type="button" value="삭제" placeholder="삭제" id="delete_stdBtn" th:attr="data-stdName=${list.stdName}" onclick="deleteStadium()">
                 <!--          <input type="button" value="삭제" placeholder="삭제" id="delete_stdBtn" onclick="deleteStadium()" th:onclick="|location.href='@{/stadium/{stdName}/delete(stdName=${list.stdName})}'|" ></input>-->
+                <input type="button" id="back-btn" value="목록으로" onclick="location.href='/matchGetIt/stadium';">
             </div>
         </div>
     </div>
