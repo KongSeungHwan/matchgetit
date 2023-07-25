@@ -1,4 +1,5 @@
 package com.matchgetit.backend.controller;
+import com.matchgetit.backend.config.SocialEnv;
 import com.matchgetit.backend.entity.MemberEntity;
 import com.matchgetit.backend.request.FindRequest;
 import com.matchgetit.backend.service.FindService;
@@ -6,8 +7,10 @@ import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +19,11 @@ import java.util.Properties;
 
 @RestController
 @RequestMapping("/matchGetIt/find")
-@NoArgsConstructor
+@AllArgsConstructor
 public class FindController {
-
-    @Autowired
     private FindService findService;
+
+    private final SocialEnv socialEnv;
 
     @PostMapping("/Id")
     public ResponseEntity<String> FindId(@RequestBody FindRequest findRequest, HttpServletRequest request) {
@@ -61,19 +64,15 @@ public class FindController {
             properties.put("mail.smtp.starttls.enable", "true");
             properties.put("mail.smtp.ssl.enable", "true"); // SSL 보안 연결 설정
 
-            // 발신자 이메일 계정 정보
-            String senderEmail = "rlatjsaud65@naver.com";
-            String senderPassword = "sn08117753!";
-
             session = Session.getInstance(properties, new Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(senderEmail, senderPassword);
+                    return new PasswordAuthentication(socialEnv.getSmtpId(), socialEnv.getSmtpPw());
                 }
             });
 
             // 이메일 메시지 생성
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(senderEmail));
+            message.setFrom(new InternetAddress(socialEnv.getSmtpId()));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
             message.setSubject(subject);
             message.setText(content);

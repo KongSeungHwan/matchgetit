@@ -33,8 +33,9 @@ public class SocialEnv {
     private String kakaoClientId;
     @Value("${kakao.secret}")
     private String kakaoSecret;
-
-
-
+    @Value("${smtp.id}")
+    private String smtpId;
+    @Value("${smtp.pw}")
+    private String smtpPw;
 
 }
